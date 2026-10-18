@@ -47,7 +47,7 @@ export function AvailabilityPage() {
     <>
       <PageHead
         title="Availability"
-        desc="Click or drag over cells to mark times as unavailable. The generator never places lessons there."
+        desc="Click a box to mark a time when someone or something is not available. Click again to undo. You can drag across several boxes."
       />
       <div className="card">
         <div className="row" style={{ marginBottom: 12 }}>
@@ -101,7 +101,7 @@ export function AvailabilityPage() {
                           onPointerDown={(e) => { e.preventDefault(); drag.current = { on: !off }; setSlots([k], !off); }}
                           onPointerEnter={() => drag.current && isOff(k) !== drag.current.on && setSlots([k], drag.current.on)}
                           onKeyDown={(e) => (e.key === ' ' || e.key === 'Enter') && (e.preventDefault(), setSlots([k], !off))}>
-                          {off ? '✕' : '✓'}
+                          {off ? 'Off' : 'Free'}
                         </td>
                       );
                     })}
@@ -112,9 +112,9 @@ export function AvailabilityPage() {
           </div>
         )}
         <div className="legend">
-          <span><span className="dot" style={{ background: 'var(--ok)' }} /> Available</span>
-          <span><span className="dot" style={{ background: 'var(--danger)' }} /> Unavailable</span>
-          <span>Click a day or period header to toggle a whole row or column.</span>
+          <span><span className="dot" style={{ background: 'var(--ok-field)' }} /> Free: lessons can go here</span>
+          <span><span className="dot" style={{ background: 'var(--danger-field)' }} /> Off: no lessons here</span>
+          <span>Tip: click a day or period name to change the whole row or column.</span>
         </div>
       </div>
     </>

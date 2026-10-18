@@ -79,7 +79,7 @@ export function ReportsPage() {
 
   return (
     <>
-      <PageHead title="Reports" desc="Teacher workload and class coverage for the current timetable.">
+      <PageHead title="Reports" desc="How many lessons each teacher has on each day, and whether every class got all its lessons.">
         {tab === 'teachers' && <button className="btn" onClick={exportWorkload}>Export CSV</button>}
         <button className="btn" onClick={() => window.print()}>Print</button>
       </PageHead>

@@ -71,14 +71,14 @@ export function SaveBanner() {
 export function SaveStatus() {
   const { save, active } = useProject();
   const label =
-    save.state === 'saved' ? '✓ Saved in this browser'
+    save.state === 'saved' ? 'Saved on this computer'
     : save.state === 'pending' ? 'Saving…'
-    : save.state === 'error' ? '⚠ Not saved'
-    : '⚠ Not saving (storage blocked)';
+    : save.state === 'error' ? 'Not saved'
+    : 'Not saving: storage is blocked';
   return (
     <div className="small" aria-live="polite">
-      <span style={{ color: save.state === 'error' || save.state === 'unavailable' ? 'var(--danger)' : 'var(--muted)' }}>{label}</span>
-      <div className="muted">Backup: {timeAgo(active.lastBackupAt)}</div>
+      <b style={{ fontWeight: 500, color: save.state === 'error' || save.state === 'unavailable' ? 'var(--danger)' : undefined }}>{label}</b>
+      <div>Last backup: {timeAgo(active.lastBackupAt)}</div>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { slotKey, type Card, type Project } from '../../model/types';
 import { lessonRooms } from '../../solver/context';
 import { checkMove, findViolations, suggestRoom, type Violation } from '../../solver';
 import { PageHead } from '../components';
+import { ArrowLeft, ArrowRight, Lock } from '../icons';
 import { useProject } from '../store';
 
 type Drag = { type: 'card'; cardId: string } | { type: 'unit'; lessonId: string; unit: number };
@@ -125,7 +126,7 @@ export function TimetablePage() {
   if (!project.lessons.length) {
     return (
       <>
-        <PageHead title="Timetable" />
+        <PageHead title="View & print" />
         <div className="card empty">Add lessons and generate a timetable first.</div>
       </>
     );
@@ -148,7 +149,7 @@ export function TimetablePage() {
 
   return (
     <>
-      <PageHead title="Timetable" desc="Drag cards to move them. Green cells are free, red cells would clash. Click a card to lock it, change its room or unschedule it.">
+      <PageHead title="View & print" desc="To move a lesson, drag it to another box. Green boxes are free; red boxes would cause a clash. Click a lesson to lock it in place or change its room.">
         {exportsBar}
       </PageHead>
 
@@ -163,17 +164,17 @@ export function TimetablePage() {
           </div>
           {view !== 'overview' && (
             <>
-              <button className="btn sm" aria-label="Previous" onClick={() => {
+              <button className="btn sm" onClick={() => {
                 const i = list.findIndex((e) => e.id === entity?.id);
                 setEntityId(list[(i - 1 + list.length) % list.length]?.id ?? '');
-              }}>‹</button>
+              }}><ArrowLeft className="icon" />Previous</button>
               <select value={entity?.id ?? ''} onChange={(e) => setEntityId(e.target.value)} aria-label="Choose timetable" style={{ minWidth: 180 }}>
                 {list.map((e) => <option key={e.id} value={e.id}>{e.name}</option>)}
               </select>
-              <button className="btn sm" aria-label="Next" onClick={() => {
+              <button className="btn sm" onClick={() => {
                 const i = list.findIndex((e) => e.id === entity?.id);
                 setEntityId(list[(i + 1) % list.length]?.id ?? '');
-              }}>›</button>
+              }}>Next<ArrowRight className="icon" /></button>
             </>
           )}
           <span className="spacer" />
@@ -237,10 +238,10 @@ export function TimetablePage() {
               </select>
             )}
             <button className="btn sm" onClick={() => patchCard(selectedCard.id, { locked: !selectedCard.locked })}>
-              {selectedCard.locked ? '🔓 Unlock' : '🔒 Lock'}
+              {selectedCard.locked ? 'Unlock' : 'Lock in place'}
             </button>
             <button className="btn sm" onClick={() => unschedule(selectedCard)}>Unschedule</button>
-            <button className="btn sm ghost" aria-label="Close" onClick={() => setSelected(null)}>✕</button>
+            <button className="btn sm ghost" onClick={() => setSelected(null)}>Close</button>
           </div>
           {violations.filter((v) => v.cardIds.includes(selectedCard.id)).map((v, i) => (
             <div key={i} className="alert error" style={{ marginTop: 8, marginBottom: 0 }}>{v.message}</div>
@@ -405,6 +406,7 @@ function LessonCard({ entry, kind, readOnly, clash, selected, onClick, onDragSta
       onDragEnd={onDragEnd}
       title={`${entry.subject?.name ?? ''}${entry.card.locked ? ' (locked)' : ''}`}
     >
+      {entry.card.locked && <Lock className="lock" aria-label="Locked in place" />}
       <b>{entry.subject?.name ?? '?'}</b>
       {a && <span>{a}</span>}
       {b && <span>{b}</span>}

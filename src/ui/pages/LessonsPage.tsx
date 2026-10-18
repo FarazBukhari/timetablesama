@@ -89,7 +89,7 @@ export function LessonsPage() {
             <label className="field">Allowed rooms
               <MultiSelect ariaLabel="Rooms" options={roomOpts} value={draft.roomIds} onChange={(roomIds) => setDraft({ ...draft, roomIds })} placeholder="Home room / any" />
             </label>
-            <label className="field">Periods per week
+            <label className="field">Lessons a week
               <NumberInput value={draft.periodsPerWeek} min={1} max={40} onChange={(periodsPerWeek) => setDraft({ ...draft, periodsPerWeek })} />
             </label>
             <label className="field">Arrange as
@@ -97,7 +97,7 @@ export function LessonsPage() {
                 {LENGTHS.map((x) => <option key={x.v} value={x.v}>{x.label}</option>)}
               </select>
             </label>
-            <label className="field">Max per day
+            <label className="field">Most in a day
               <NumberInput value={draft.maxPerDay} min={1} max={10} onChange={(maxPerDay) => setDraft({ ...draft, maxPerDay })} />
             </label>
           </div>
@@ -133,9 +133,9 @@ export function LessonsPage() {
           </select>
         </div>
         <div className="table-wrap">
-          <table className="data">
+          <table className="data lessons-table">
             <thead>
-              <tr><th>Classes</th><th>Subject</th><th>Teachers</th><th>Periods/wk</th><th>Arrange</th><th>Max/day</th><th>Rooms</th><th>Units</th><th /></tr>
+              <tr><th>Classes</th><th>Subject</th><th>Teachers</th><th>Lessons a week</th><th>Arrange as</th><th>Most in a day</th><th>Rooms</th><th>Placed as</th><th /></tr>
             </thead>
             <tbody>
               {!shown.length && <tr><td colSpan={9} className="empty">No lessons yet.</td></tr>}
@@ -161,7 +161,7 @@ export function LessonsPage() {
                   <td><NumberInput value={l.maxPerDay} min={1} max={10} ariaLabel="Max per day" onChange={(maxPerDay) => patch(l.id, { maxPerDay })} /></td>
                   <td style={{ minWidth: 130 }}><MultiSelect ariaLabel="Rooms" options={roomOpts} value={l.roomIds} onChange={(roomIds) => patch(l.id, { roomIds })} placeholder="Home room" /></td>
                   <td className="muted small">{unitLengths(l).join('+')}</td>
-                  <td><button className="btn ghost sm danger" aria-label="Delete lesson" onClick={() => remove(l.id)}>✕</button></td>
+                  <td><button className="btn sm danger" aria-label="Delete lesson" onClick={() => remove(l.id)}>Delete</button></td>
                 </tr>
               ))}
             </tbody>

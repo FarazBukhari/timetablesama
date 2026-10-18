@@ -40,7 +40,9 @@ and every export is free.
   and when the last backup was made. A red banner appears if the browser blocks or runs out of
   storage. Once a timetable is generated, a reminder suggests downloading a backup file until one
   is made. If storage isn't working, closing the tab asks you to confirm first.
-- Light and dark themes and a mobile-friendly layout.
+- **Designed for teachers:** a welcome page you can try without signing up (shuffle a real example
+  week), and a step-by-step workspace with large text, plain words and a "Next step" bar. Light
+  and dark themes, and it works on phones. See [`docs/DESIGN.md`](docs/DESIGN.md).
 
 ## Run it
 
@@ -63,6 +65,8 @@ src/export/   grid builder, CSV, Excel (SpreadsheetML), JSON import/export
 src/ui/       React app: store (projects, autosave, undo), persistence, pages, components
 docs/         research notes, spec, decisions
 .claude/skills/orchestrator/   the /orchestrator skill that drives this project
+.claude/skills/taste-skill/     design skills (MIT, Leonxlnx/taste-skill) used for the redesign
+src/landing/  welcome page; public/pictures/ openly licensed archival pictures
 ```
 
 ## How the generator works

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { Chevron } from './icons';
 
 export function PageHead({ title, desc, children }: { title: string; desc?: ReactNode; children?: ReactNode }) {
   return (
@@ -42,11 +43,11 @@ export function MultiSelect({
         <span className="row" style={{ gap: 4 }}>
           {selected.length ? selected.map((o) => <span key={o.value} className="chip">{o.label}</span>) : <span className="muted">{placeholder}</span>}
         </span>
-        <span className="muted">▾</span>
+        <Chevron className="icon" />
       </button>
       {open && (
         <div className="ms-pop" role="listbox">
-          {!options.length && <div className="muted small" style={{ padding: 6 }}>Nothing to choose yet.</div>}
+          {!options.length && <div className="muted small" style={{ padding: 8 }}>Nothing to choose yet. Add some on the earlier steps first.</div>}
           {options.map((o) => (
             <label key={o.value}>
               <input
@@ -68,7 +69,7 @@ export function MultiSelect({
 export function BulkAdd({ hint, onAdd }: { hint: string; onAdd: (lines: string[][]) => void }) {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
-  if (!open) return <button className="btn" onClick={() => setOpen(true)}>Bulk add</button>;
+  if (!open) return <button className="btn" onClick={() => setOpen(true)}>Paste a list</button>;
   const submit = () => {
     const rows = text
       .split(/\r?\n/)
@@ -80,8 +81,8 @@ export function BulkAdd({ hint, onAdd }: { hint: string; onAdd: (lines: string[]
   };
   return (
     <div className="card" style={{ width: '100%' }}>
-      <h3>Bulk add</h3>
-      <p className="muted small">{hint} One per line, columns separated by commas or tabs (paste straight from a spreadsheet).</p>
+      <h3>Paste a list</h3>
+      <p className="help">{hint} Put one on each line. You can copy a column straight from Excel or Google Sheets and paste it here.</p>
       <textarea value={text} onChange={(e) => setText(e.target.value)} autoFocus />
       <div className="row" style={{ marginTop: 8 }}>
         <button className="btn primary" onClick={submit}>Add</button>

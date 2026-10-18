@@ -29,11 +29,11 @@ function load(project: Project, pred: (l: Project['lessons'][number]) => boolean
 }
 
 const DeleteBtn = ({ onClick, name }: { onClick: () => void; name: string }) => (
-  <button className="btn ghost sm danger" aria-label={`Delete ${name}`} onClick={onClick}>✕</button>
+  <button className="btn sm danger" aria-label={`Delete ${name}`} onClick={onClick}>Delete</button>
 );
 
 const Empty = ({ what }: { what: string }) => (
-  <tr><td colSpan={9} className="empty">No {what} yet. Add one, or bulk-paste a list.</td></tr>
+  <tr><td colSpan={9} className="empty"><b>No {what} yet</b>Use the Add button above, or paste a list you already have.</td></tr>
 );
 
 export function SubjectsPage() {
@@ -43,7 +43,7 @@ export function SubjectsPage() {
   });
   return (
     <>
-      <PageHead title="Subjects" desc="The subjects you teach. Codes and colours appear on timetable cards.">
+      <PageHead title="Subjects" desc="Type each subject your school teaches. The short code and colour show on the printed timetable.">
         <button className="btn primary" onClick={() => add(make(`Subject ${items.length + 1}`))}>+ Add subject</button>
         <BulkAdd hint="Name, code (optional)." onAdd={(rows) => add(...rows.map((r, i) => make(r[0], r[1], items.length + i)))} />
       </PageHead>
@@ -76,7 +76,7 @@ export function TeachersPage() {
   const max = project.school.settings.maxTeacherPeriodsPerDay;
   return (
     <>
-      <PageHead title="Teachers" desc="Staff who teach lessons. Set their unavailable times on the Availability page.">
+      <PageHead title="Teachers" desc="Type each teacher’s name. If someone works part-time, you can mark their days off in the Availability step.">
         <button className="btn primary" onClick={() => add(make(`Teacher ${items.length + 1}`))}>+ Add teacher</button>
         <BulkAdd hint="Name, short code (optional), email (optional)." onAdd={(rows) => add(...rows.map((r) => make(r[0], r[1], r[2])))} />
       </PageHead>
@@ -92,7 +92,7 @@ export function TeachersPage() {
                 <td><input value={t.email ?? ''} aria-label="Email" type="email" onChange={(e) => patch(t.id, { email: e.target.value })} /></td>
                 <td>
                   <NumberInput value={t.maxPerDay || undefined} ariaLabel="Max periods per day" max={16} onChange={(n) => patch(t.id, { maxPerDay: n || undefined })} />
-                  {!t.maxPerDay && <span className="muted small"> default {max || '∞'}</span>}
+                  {!t.maxPerDay && <span className="muted small"> usual {max || 'no limit'}</span>}
                 </td>
                 <td className="muted">{load(project, (l) => l.teacherIds.includes(t.id))}</td>
                 <td className="muted">{t.unavailable.length ? `${t.unavailable.length} slots` : '—'}</td>
@@ -114,7 +114,7 @@ export function ClassesPage() {
   const weekly = project.school.days.length * project.school.periods.filter((p) => !p.isBreak).length;
   return (
     <>
-      <PageHead title="Classes" desc="Student groups (grades, sections, forms). A home room is used for lessons that don't name a room.">
+      <PageHead title="Classes" desc="Add each class or form, for example 7A or Year 9 Blue. Give a class a home room and its lessons will go there unless you choose another room.">
         <button className="btn primary" onClick={() => add(make(`Class ${items.length + 1}`))}>+ Add class</button>
         <BulkAdd hint="Name, number of students (optional)." onAdd={(rows) => add(...rows.map((r) => make(r[0], r[1])))} />
       </PageHead>
@@ -161,7 +161,7 @@ export function RoomsPage() {
   const types = [...new Set(items.map((r) => r.type).filter(Boolean))];
   return (
     <>
-      <PageHead title="Rooms" desc="Classrooms, labs, halls. Lessons can be limited to specific rooms; the generator picks a free one.">
+      <PageHead title="Rooms" desc="Add the rooms you timetable: classrooms, labs, the hall. If a lesson needs a special room, you choose it in the Lessons step.">
         <button className="btn primary" onClick={() => add(make(`Room ${items.length + 1}`))}>+ Add room</button>
         <BulkAdd hint="Name, type (optional), capacity (optional)." onAdd={(rows) => add(...rows.map((r) => make(r[0], r[1], r[2])))} />
       </PageHead>

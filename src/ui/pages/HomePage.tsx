@@ -111,7 +111,7 @@ export function HomePage({ go }: { go: (p: PageId) => void }) {
         </div>
         {hasData && (
           <div className="row" style={{ marginTop: 12 }}>
-            <button className="btn" onClick={() => go(project.cards.length ? 'timetable' : 'lessons')}>Continue with {active.name} →</button>
+            <button className="btn" onClick={() => go(project.cards.length ? 'timetable' : 'lessons')}>Carry on with {active.name}</button>
           </div>
         )}
       </div>

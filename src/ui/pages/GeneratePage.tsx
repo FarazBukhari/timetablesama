@@ -65,7 +65,7 @@ export function GeneratePage({ go }: { go: (p: PageId) => void }) {
 
   return (
     <>
-      <PageHead title="Generate timetable" desc="Check your data, adjust the rules, then let the generator place every lesson.">
+      <PageHead title="Create timetable" desc="Press Create and every lesson is given a day, a period and a room, with no clashes. You can create it again as often as you like.">
         {running ? (
           <button className="btn lg" onClick={stop}>Stop</button>
         ) : (
@@ -74,9 +74,9 @@ export function GeneratePage({ go }: { go: (p: PageId) => void }) {
               const seed = Math.floor(Math.random() * 1e9);
               set({ seed });
               run(seed);
-            }} title="Try a different arrangement">Shuffle & generate</button>
+            }} title="Make a different arrangement of the same lessons">Try another arrangement</button>
             <button className="btn primary lg" disabled={!report.totalUnits} onClick={() => run()}>
-              {project.cards.length ? 'Regenerate' : 'Generate'}
+              {project.cards.length ? 'Create again' : 'Create timetable'}
             </button>
           </>
         )}
@@ -132,7 +132,7 @@ export function GeneratePage({ go }: { go: (p: PageId) => void }) {
             </div>
           )}
           <div className="row" style={{ marginTop: 10 }}>
-            <button className="btn primary" onClick={() => go('timetable')}>Open timetable →</button>
+            <button className="btn primary" onClick={() => go('timetable')}>View and print the timetable</button>
           </div>
         </div>
       )}

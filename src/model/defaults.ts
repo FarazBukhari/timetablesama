@@ -6,9 +6,10 @@ export function uid(prefix = 'id'): string {
   return `${prefix}_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}${counter.toString(36)}`;
 }
 
+/** Muted print-ink colours for subjects, readable as tints on paper. */
 export const PALETTE = [
-  '#6366f1', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#14b8a6', '#f97316',
-  '#ec4899', '#84cc16', '#06b6d4', '#a855f7', '#22c55e', '#eab308', '#3b82f6', '#e11d48',
+  '#4f7396', '#6f9460', '#c3873f', '#b05a4b', '#3f8584', '#a0688a', '#8a7a3a', '#5d6f8c',
+  '#c06f52', '#7f9b3f', '#7a5f4a', '#4e8a6a', '#b48a2c', '#8a5a6e', '#5f8aa6', '#9b6b3c',
 ];
 
 export const DEFAULT_SETTINGS: SolverSettings = {
