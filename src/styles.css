@@ -189,8 +189,14 @@ svg.icon { width: 18px; height: 18px; flex: none; }
 }
 .nav-icon > svg { width: 19px; height: 19px; }
 .nav-item.active .nav-icon { background: var(--sun); color: #142229; }
+.nav-num {
+  position: absolute; right: -6px; bottom: -6px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px;
+  display: grid; place-items: center; font-size: 11px; font-weight: 500; line-height: 1; font-variant-numeric: tabular-nums;
+  background: var(--sidebar); color: var(--sidebar-ink); box-shadow: 0 0 0 2px var(--sidebar), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+.nav-item.active .nav-num { background: #fff; color: #142229; box-shadow: 0 0 0 2px var(--sidebar); }
 .nav-done {
-  position: absolute; right: -5px; bottom: -5px; width: 17px; height: 17px; border-radius: 50%;
+  position: absolute; right: -5px; top: -5px; width: 17px; height: 17px; border-radius: 50%;
   display: grid; place-items: center; background: var(--sun); color: #142229; box-shadow: 0 0 0 2px var(--sidebar);
 }
 .nav-done svg { width: 11px; height: 11px; stroke-width: 3; }
@@ -393,6 +399,19 @@ table.tt th .time { display: block; font-weight: 400; font-variant-numeric: tabu
 table.tt td { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); height: var(--cell-h); padding: 4px; vertical-align: top; background: var(--surface); transition: background-color 120ms var(--ease); }
 table.tt td.drop-ok { background: var(--ok-field); }
 table.tt td.drop-bad { background: var(--danger-field); }
+table.tt td.drop-maybe { background: var(--warn-field); }
+table.tt td.drop-ok, table.tt td.drop-maybe { cursor: pointer; }
+.drop-legend { margin: 0 0 10px; }
+.tt-tools { margin-bottom: 12px; gap: 8px; }
+.picked-panel { box-shadow: inset 5px 0 0 var(--sun), var(--shadow-1); }
+.picked-panel .help { margin-top: 8px; }
+.lesson-card.fixed { box-shadow: inset 4px 0 0 var(--c, var(--accent)), inset 0 0 0 2px color-mix(in srgb, var(--c, var(--accent)) 55%, transparent); cursor: default; }
+
+/* ---------- dialog ---------- */
+.dialog-backdrop { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px; background: rgba(10, 30, 33, 0.45); }
+.dialog { width: min(520px, 100%); background: var(--surface); border-radius: 18px; padding: 24px; box-shadow: var(--shadow-2); }
+.dialog h2 { font-size: var(--step-lead); }
+.dialog-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
 table.tt td.unavail { background: repeating-linear-gradient(45deg, var(--surface-2) 0 6px, var(--surface) 6px 12px); }
 table.tt th.brk, table.tt td.brk { width: 22px; padding: 0; background: var(--surface-2); }
 table.tt th.brk span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 12px; }

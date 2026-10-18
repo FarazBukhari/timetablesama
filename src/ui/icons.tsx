@@ -31,3 +31,4 @@ export const IconSparkle = (p: P) => <svg {...base} {...p}><path d="M12 3l1.8 4.
 export const IconPrinter = (p: P) => <svg {...base} {...p}><path d="M7 9V3h10v6" /><rect x="3" y="9" width="18" height="8" rx="2" /><path d="M7 14h10v7H7z" /></svg>;
 export const IconChart = (p: P) => <svg {...base} {...p}><path d="M4 20h16" /><path d="M7 16v-5M12 16V6M17 16v-8" /></svg>;
 export const IconPanel = (p: P) => <svg {...base} {...p}><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M9 4v16" /><path d="M14 10l-2 2 2 2" /></svg>;
+export const IconPin = (p: P) => <svg {...base} {...p}><path d="M9 3h6l-1 6 4 4H6l4-4z" /><path d="M12 13v8" /></svg>;

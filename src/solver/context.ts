@@ -13,8 +13,8 @@ export interface Unit {
   /** Candidate room indices; empty = no room needed. */
   rooms: number[];
   maxPerDay: number;
-  /** Fixed placement from a locked card. */
-  locked?: { pos: number; room: number; cardId: string };
+  /** Placement kept from a locked or fixed card. */
+  locked?: { pos: number; room: number; cardId: string; locked: boolean; fixed: boolean };
   /** Valid start positions (day * P + period) after static checks. */
   valid: number[];
   /** Rooms usable at each valid start position (parallel to `valid`). */
@@ -69,7 +69,7 @@ export function blockFits(breakAfter: boolean[], P: number, p: number, len: numb
   return true;
 }
 
-export function buildContext(project: Project, lockedCards: Card[] = project.cards.filter((c) => c.locked)): Context {
+export function buildContext(project: Project, lockedCards: Card[] = project.cards.filter((c) => c.locked || c.fixed)): Context {
   const { school } = project;
   const tp = teachingPeriods(school.periods);
   const D = school.days.length;
@@ -116,6 +116,8 @@ export function buildContext(project: Project, lockedCards: Card[] = project.car
           pos: lc.day * P + lc.period,
           room: lc.roomId !== undefined ? roomIndex.get(lc.roomId) ?? -1 : -1,
           cardId: lc.id,
+          locked: lc.locked,
+          fixed: !!lc.fixed,
         };
       }
       computeValid(ctx, unit);

@@ -30,6 +30,8 @@ export interface SolverSettings {
   periodConsistencyWeight: number;
   timeLimitSec: number;
   seed: number;
+  /** Lock lessons automatically when they are moved by hand. */
+  autoLockMoves: boolean;
 }
 
 export interface School {
@@ -97,7 +99,10 @@ export interface Card {
   day: number;
   period: number; // teaching-period index of the first period
   roomId?: Id;
+  /** Kept in place when the timetable is created again. */
   locked: boolean;
+  /** Pinned to this slot: never moved, and not released by "Unlock all". */
+  fixed?: boolean;
 }
 
 export interface UnplacedUnit {

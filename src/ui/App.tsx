@@ -140,19 +140,20 @@ export function App() {
           <span className="nav-label">My timetables</span>
         </button>
         <ol className="steps-nav">
-          {STEPS.map((s) => (
+          {STEPS.map((s, i) => (
             <li key={s.id}>
               <button
                 className={`nav-item${page === s.id ? ' active' : ''}${done[s.id] ? ' done' : ''}`}
                 onClick={() => go(s.id)}
                 aria-current={page === s.id ? 'step' : undefined}
-                data-tip={`${s.label}${done[s.id] ? ' (done)' : ''}`}
+                data-tip={`${i + 1}. ${s.label}${done[s.id] ? ' (done)' : ''}`}
               >
                 <span className="nav-icon" aria-hidden>
                   <s.icon />
+                  <span className="nav-num">{i + 1}</span>
                   {done[s.id] && <span className="nav-done"><Check /></span>}
                 </span>
-                <span className="nav-label">{s.label}{done[s.id] && <span className="sr-only"> (done)</span>}</span>
+                <span className="nav-label"><span className="sr-only">Step {i + 1}: </span>{s.label}{done[s.id] && <span className="sr-only"> (done)</span>}</span>
                 {counts[s.id] !== undefined && <span className="count">{counts[s.id]}</span>}
               </button>
             </li>

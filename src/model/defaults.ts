@@ -25,6 +25,7 @@ export const DEFAULT_SETTINGS: SolverSettings = {
   periodConsistencyWeight: 1,
   timeLimitSec: 10,
   seed: 1,
+  autoLockMoves: true,
 };
 
 export const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];

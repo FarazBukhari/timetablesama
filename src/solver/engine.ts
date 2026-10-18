@@ -465,7 +465,8 @@ export function generate(project: Project, opts: GenerateOptions = {}): Generate
       day: Math.floor(start / P),
       period: start % P,
       roomId: room >= 0 ? project.rooms[room].id : undefined,
-      locked: !!u.locked,
+      locked: u.locked?.locked ?? false,
+      ...(u.locked?.fixed ? { fixed: true } : {}),
     });
   }
   const softCost = scorer.total();

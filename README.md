@@ -25,9 +25,11 @@ and every export is free.
   week, a cap on consecutive periods, and optionally the same period each day. Any lesson that
   can't be placed comes with a plain-English reason.
 - **Timetable editor:** class, teacher and room views plus an all-classes overview. You can drag
-  and drop with live green/red drop targets, lock and unlock cards, change a card's room,
-  unschedule it, or drag it back from the tray. Clashes are highlighted. Undo and redo are
-  supported (Ctrl+Z).
+  and drop, or tap a lesson and then tap a box (works on phones). Boxes turn green (free), amber
+  (taken: swap the two lessons or move the other one to Unscheduled) or red (not allowed). Lessons
+  you move by hand lock automatically (can be switched off); "Fix to this slot" pins a lesson so
+  nothing moves it. Clear unlocked lessons, or clear all except fixed ones. Clashes are
+  highlighted, and undo and redo are supported (Ctrl+Z).
 - **Exports:** Excel (`.xls`, one sheet per class, teacher and room), CSV (all lessons or the
   current grid), print/PDF (one view, or every class or teacher on its own page), and a JSON
   project file for backup and sharing.

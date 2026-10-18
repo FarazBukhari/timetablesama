@@ -16,7 +16,8 @@ aside on purpose:
   and soft shadows tinted with teal, and buttons lift on hover.
 - **Narrow spaces:** whenever a table's own area is too narrow (on a phone, or in a narrow window
   beside the menu), each row turns into a labelled card, so no field is ever cut off.
-- **Sidebar:** each step has its own icon instead of a number, with a marigold tick once it's done.
+- **Sidebar:** each step has its own icon, with its step number in a small badge at the bottom right,
+  instead of a plain number, with a marigold tick once it's done.
   The "Hide menu names" button shrinks the sidebar to a rail of icons, with names shown as tooltips,
   and the choice is remembered.
 
