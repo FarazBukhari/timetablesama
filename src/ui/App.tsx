@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ComponentType, type SVGProps } from 'react';
 import { Landing } from '../landing/Landing';
-import { ArrowLeft, ArrowRight, Check, Mark, Redo, Undo } from './icons';
+import {
+  ArrowLeft, ArrowRight, Check, IconBook, IconCalendarOff, IconChart, IconClass, IconClock, IconDoor, IconHome,
+  IconLessons, IconPanel, IconPrinter, IconSparkle, IconTeacher, Mark, Redo, Undo,
+} from './icons';
 import { AvailabilityPage } from './pages/AvailabilityPage';
 import { ClassesPage, RoomsPage, SubjectsPage, TeachersPage } from './pages/DataPages';
 import { GeneratePage } from './pages/GeneratePage';
@@ -17,17 +20,19 @@ export type PageId =
   | 'availability' | 'generate' | 'timetable' | 'reports';
 
 /** The steps of making a timetable, in order. */
-const STEPS: { id: PageId; label: string; next: string }[] = [
-  { id: 'school', label: 'School day', next: 'Set your days, periods and breaks.' },
-  { id: 'subjects', label: 'Subjects', next: 'List the subjects your school teaches.' },
-  { id: 'teachers', label: 'Teachers', next: 'Add the staff who teach.' },
-  { id: 'classes', label: 'Classes', next: 'Add your classes or forms.' },
-  { id: 'rooms', label: 'Rooms', next: 'Add classrooms, labs and halls.' },
-  { id: 'lessons', label: 'Lessons', next: 'Say who teaches what, and how often.' },
-  { id: 'availability', label: 'Availability', next: 'Mark when people or rooms are not available. You can skip this.' },
-  { id: 'generate', label: 'Create timetable', next: 'Let TimetableSama fit every lesson in.' },
-  { id: 'timetable', label: 'View & print', next: 'Check it, move lessons by hand, and print.' },
-  { id: 'reports', label: 'Reports', next: 'See each teacher’s workload.' },
+type Icon = ComponentType<SVGProps<SVGSVGElement>>;
+
+const STEPS: { id: PageId; label: string; next: string; icon: Icon }[] = [
+  { id: 'school', icon: IconClock, label: 'School day', next: 'Set your days, periods and breaks.' },
+  { id: 'subjects', icon: IconBook, label: 'Subjects', next: 'List the subjects your school teaches.' },
+  { id: 'teachers', icon: IconTeacher, label: 'Teachers', next: 'Add the staff who teach.' },
+  { id: 'classes', icon: IconClass, label: 'Classes', next: 'Add your classes or forms.' },
+  { id: 'rooms', icon: IconDoor, label: 'Rooms', next: 'Add classrooms, labs and halls.' },
+  { id: 'lessons', icon: IconLessons, label: 'Lessons', next: 'Say who teaches what, and how often.' },
+  { id: 'availability', icon: IconCalendarOff, label: 'Availability', next: 'Mark when people or rooms are not available. You can skip this.' },
+  { id: 'generate', icon: IconSparkle, label: 'Create timetable', next: 'Let TimetableSama fit every lesson in.' },
+  { id: 'timetable', icon: IconPrinter, label: 'View & print', next: 'Check it, move lessons by hand, and print.' },
+  { id: 'reports', icon: IconChart, label: 'Reports', next: 'See each teacher’s workload.' },
 ];
 const ALL: PageId[] = ['welcome', 'home', ...STEPS.map((s) => s.id)];
 
@@ -54,6 +59,20 @@ export function App() {
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, [hasData]);
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('timetablesama.nav') === 'collapsed';
+    } catch {
+      return false;
+    }
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem('timetablesama.nav', collapsed ? 'collapsed' : 'open');
+    } catch {
+      /* ignore */
+    }
+  }, [collapsed]);
   useEffect(() => {
     if (theme === 'auto') document.documentElement.removeAttribute('data-theme');
     else document.documentElement.setAttribute('data-theme', theme);
@@ -98,45 +117,60 @@ export function App() {
   const stepIndex = STEPS.findIndex((s) => s.id === page);
 
   return (
-    <div className="app">
+    <div className={`app${collapsed ? ' nav-collapsed' : ''}`}>
       <a className="skip-link" href="#main">Skip to content</a>
       <nav className="sidebar" aria-label="Steps">
-        <a className="brand" href="#/welcome" onClick={(e) => { e.preventDefault(); go('welcome'); }}>
-          <Mark />
-          <span>TimetableSama</span>
-        </a>
-        <button className={`nav-item${page === 'home' ? ' active' : ''}`} onClick={() => go('home')} aria-current={page === 'home' ? 'page' : undefined}>
-          <span className="nav-step" aria-hidden><Mark style={{ width: 16, height: 16 }} /></span>
-          My timetables
+        <div className="sidebar-top">
+          <a className="brand" href="#/welcome" onClick={(e) => { e.preventDefault(); go('welcome'); }} data-tip="TimetableSama home">
+            <Mark />
+            <span className="nav-label">TimetableSama</span>
+          </a>
+          <button
+            className="nav-toggle"
+            onClick={() => setCollapsed(!collapsed)}
+            aria-expanded={!collapsed}
+            aria-label={collapsed ? 'Show menu names' : 'Hide menu names'}
+            data-tip={collapsed ? 'Show menu names' : 'Hide menu names'}
+          >
+            <IconPanel />
+          </button>
+        </div>
+        <button className={`nav-item${page === 'home' ? ' active' : ''}`} onClick={() => go('home')} aria-current={page === 'home' ? 'page' : undefined} data-tip="My timetables">
+          <span className="nav-icon" aria-hidden><IconHome /></span>
+          <span className="nav-label">My timetables</span>
         </button>
         <ol className="steps-nav">
-          {STEPS.map((s, i) => (
+          {STEPS.map((s) => (
             <li key={s.id}>
               <button
                 className={`nav-item${page === s.id ? ' active' : ''}${done[s.id] ? ' done' : ''}`}
                 onClick={() => go(s.id)}
                 aria-current={page === s.id ? 'step' : undefined}
+                data-tip={`${s.label}${done[s.id] ? ' (done)' : ''}`}
               >
-                <span className="nav-step">{done[s.id] ? <Check aria-label="Done" /> : i + 1}</span>
-                {s.label}
+                <span className="nav-icon" aria-hidden>
+                  <s.icon />
+                  {done[s.id] && <span className="nav-done"><Check /></span>}
+                </span>
+                <span className="nav-label">{s.label}{done[s.id] && <span className="sr-only"> (done)</span>}</span>
                 {counts[s.id] !== undefined && <span className="count">{counts[s.id]}</span>}
               </button>
             </li>
           ))}
         </ol>
         <div className="sidebar-foot">
-          <label className="field">
+          <label className="field when-open">
             Timetable you are working on
             <select value={active.id} onChange={(e) => openProject(e.target.value)}>
               {projects.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
             </select>
           </label>
-          <SaveStatus />
-          <div className="row">
-            <button className="btn sm" onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)"><Undo className="icon" />Undo</button>
-            <button className="btn sm" onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)"><Redo className="icon" />Redo</button>
+          <div className="when-open"><SaveStatus /></div>
+          <div className="row foot-actions">
+            <button className="btn sm" onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)" aria-label="Undo" data-tip="Undo"><Undo className="icon" /><span className="nav-label">Undo</span></button>
+            <button className="btn sm" onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)" aria-label="Redo" data-tip="Redo"><Redo className="icon" /><span className="nav-label">Redo</span></button>
           </div>
-          <label className="field">
+          <label className="field when-open">
             Colours
             <select value={theme} onChange={(e) => setTheme(e.target.value)}>
               <option value="auto">Match my computer</option>

@@ -47,7 +47,9 @@ export function LessonsPage() {
     const groups = joint || draft.classIds.length === 1 ? [draft.classIds] : draft.classIds.map((c) => [c]);
     const made = groups.map((classIds) => ({ ...draft, classIds, id: newLesson().id }));
     update((p) => ({ ...p, lessons: [...p.lessons, ...made] }));
+    // Keep the chosen classes for the next subject, but never carry "joint" over by accident.
     setDraft({ ...newLesson(), teacherIds: [], subjectId: '', classIds: draft.classIds });
+    setJoint(false);
   };
 
   const shown = useMemo(

@@ -24,7 +24,7 @@ function withStructure(p: Project, days: string[], periods: Period[]): Project {
 }
 
 export function SchoolPage() {
-  const { project, update } = useProject();
+  const { project, update, active, renameProject } = useProject();
   const { school } = project;
   const [gen, setGen] = useState({ count: 7, start: '08:00', mins: 45, b1: 2, b1m: 15, b2: 4, b2m: 30 });
 
@@ -49,7 +49,11 @@ export function SchoolPage() {
       <PageHead title="School day" desc="Tell us which days your school is open and when each lesson and break starts and ends." />
       <div className="card">
         <div className="grid-2">
-          <label className="field">School name<input value={school.name} onChange={(e) => setSchool({ name: e.target.value })} /></label>
+          <label className="field">School name<input value={school.name} onChange={(e) => {
+            // The timetable's name follows the school name until someone renames the timetable itself.
+            if (active.name === school.name || active.name === 'New school' || active.name === 'My School') renameProject(active.id, e.target.value || 'My School');
+            setSchool({ name: e.target.value });
+          }} /></label>
           <label className="field">Academic year / term<input value={school.academicYear} onChange={(e) => setSchool({ academicYear: e.target.value })} /></label>
         </div>
       </div>
@@ -87,7 +91,7 @@ export function SchoolPage() {
           <span className="muted">{teachingCount(school.periods)} teaching periods per day · {teachingCount(school.periods) * school.days.length} per week</span>
         </div>
         <div className="table-wrap">
-          <table className="data">
+          <table className="data periods-table">
             <thead>
               <tr><th>#</th><th>Name</th><th>Start</th><th>End</th><th>Break?</th><th /></tr>
             </thead>
