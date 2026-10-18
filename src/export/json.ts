@@ -7,8 +7,10 @@ type Obj = Record<string, unknown>;
 
 const isObj = (v: unknown): v is Obj => typeof v === 'object' && v !== null && !Array.isArray(v);
 
+const NOT_A_BACKUP = "This isn't a TimetableSama backup. Choose a .timetable.json file made with Download backup.";
+
 function fail(msg: string): never {
-  throw new Error(`Invalid project file: ${msg}`);
+  throw new Error(`This backup file is damaged and can't be opened: ${msg}`);
 }
 
 function list(parent: Obj, key: string, where: string, optional = false): Obj[] {
@@ -30,11 +32,13 @@ export function parseProjectJson(text: string): Project {
   let data: unknown;
   try {
     data = JSON.parse(text);
-  } catch (e) {
-    fail(`not valid JSON (${(e as Error).message}).`);
+  } catch {
+    throw new Error(NOT_A_BACKUP);
   }
-  if (!isObj(data)) fail('expected a JSON object.');
-  if (data.version !== 1) fail(`unsupported version ${JSON.stringify(data.version)} (expected 1).`);
+  if (!isObj(data) || data.version === undefined) throw new Error(NOT_A_BACKUP);
+  if (data.version !== 1) {
+    throw new Error(`This backup comes from a different version of TimetableSama (version ${JSON.stringify(data.version)}) and can't be opened.`);
+  }
 
   const school = data.school;
   if (!isObj(school)) fail('"school" is missing.');

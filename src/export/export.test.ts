@@ -165,8 +165,10 @@ describe('json', () => {
       mut(r);
       return () => parseProjectJson(JSON.stringify(r));
     };
-    expect(() => parseProjectJson('{nope')).toThrow(/not valid JSON/);
-    expect(() => parseProjectJson('[]')).toThrow(/JSON object/);
+    expect(() => parseProjectJson('{nope')).toThrow(/isn't a TimetableSama backup/);
+    expect(() => parseProjectJson('Day,Start,End')).toThrow(/isn't a TimetableSama backup/);
+    expect(() => parseProjectJson('[]')).toThrow(/isn't a TimetableSama backup/);
+    expect(() => parseProjectJson('{"hello":"world"}')).toThrow(/isn't a TimetableSama backup/);
     expect(bad((r) => (r.version = 2))).toThrow(/version 2/);
     expect(bad((r) => delete r.school)).toThrow(/"school"/);
     expect(bad((r) => delete r.school.days)).toThrow(/school\.days/);

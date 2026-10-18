@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Chevron } from './icons';
 
-export function PageHead({ title, desc, children }: { title: string; desc?: ReactNode; children?: ReactNode }) {
+export function PageHead({ title, desc, children, className = '' }: { title: string; desc?: ReactNode; children?: ReactNode; className?: string }) {
   return (
-    <div className="page-head">
+    <div className={`page-head ${className}`.trim()}>
       <div>
         <h1>{title}</h1>
         {desc && <p>{desc}</p>}

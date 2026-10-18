@@ -170,6 +170,7 @@ export function TimetablePage() {
   return (
     <>
       <PageHead
+        className="no-print"
         title="View & print"
         desc="To move a lesson, drag it to another box, or tap it and then tap the box. Green boxes are free. Amber boxes are taken, but you can swap or make room. Red boxes aren't allowed."
       >
