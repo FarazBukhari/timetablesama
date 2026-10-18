@@ -1,9 +1,11 @@
 # TimetableSama — notes for Claude
 
 - **Branch names:** never create or push branches with a `claude/` prefix. Use `feature/<topic>`
-  or `fix/<topic>`; `main` is the default branch and is deployed to Vercel on every push.
+  or `fix/<topic>`; `main` is the default branch and is deployed to Cloudflare Pages on every push.
+- **Hosting:** Cloudflare Pages (build `npm run build`, output `dist`, headers in `public/_headers`).
+  Analytics: Cloudflare Web Analytics only; never send timetable contents anywhere.
 - **Never deploy without explicit approval.** Pushing to `main` deploys to production (and pushing any
-  branch creates a Vercel preview). Commit locally and ask before every push.
+  branch creates a Cloudflare preview). Commit locally and ask before every push.
 - Before pushing, run `npm run typecheck`, `npm test` and `npm run build`.
 - The `/orchestrator` skill (`.claude/skills/orchestrator/SKILL.md`) describes the full workflow.
 - Design: follow `docs/DESIGN.md`. Use `.claude/skills/taste-skill` for the landing page (run its

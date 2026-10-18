@@ -84,7 +84,7 @@ scratchpad, not the repo.
 
 - Update `README.md` (features, how to run, how it differs from the original).
 - Commit on a `feature/<topic>` branch (never a `claude/` prefix), push it, then merge into
-  `main`. Pushing `main` triggers the Vercel production deploy.
+  `main`. Pushing `main` triggers the Cloudflare Pages production deploy, so ask first.
 - Do not open a PR unless the user asks.
 
 ## Guardrails
