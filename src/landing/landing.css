@@ -68,6 +68,8 @@
 .lp-wordmark svg path:first-child { fill: var(--sun); }
 .lp-wordmark svg path:last-child { stroke: var(--olive); }
 .lp-toplink { justify-self: end; font-size: var(--s-body); text-decoration: none; padding: 8px 2px; border-bottom: 3px solid var(--sun); }
+.lp-toplink-start { justify-self: start; border-bottom-color: transparent; }
+.lp-toplink-start:hover { border-bottom-color: var(--sun); }
 .lp-hero-words { min-height: 44svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 48px var(--margin) 72px; gap: 28px; }
 .lp-hero h1 { font-size: var(--s-display); letter-spacing: -0.05em; line-height: 0.9; }
 .lp-lead { font-size: var(--s-lead); max-width: 46ch; line-height: 1.35; }

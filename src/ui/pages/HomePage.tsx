@@ -127,6 +127,7 @@ export function HomePage({ go }: { go: (p: PageId) => void }) {
             <li><div><b>Generate.</b> <span className="muted">The generator places every lesson with no clashes and tells you why if one won't fit.</span></div></li>
             <li><div><b>Adjust & export.</b> <span className="muted">Drag and drop, lock cards, then print, PDF, Excel or CSV.</span></div></li>
           </ol>
+          <a className="btn" href="guide/" style={{ marginTop: 12 }}>Read the step-by-step guide</a>
         </div>
         <div className="card">
           <h2>Where is my work saved?</h2>

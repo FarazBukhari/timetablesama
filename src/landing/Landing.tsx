@@ -250,7 +250,7 @@ export function Landing({ go }: { go: (p: PageId) => void }) {
       {/* Hero: the stack of school-office folders */}
       <header className="lp-hero">
         <div className="lp-top">
-          <span />
+          <a className="lp-toplink lp-toplink-start" href="guide/"><span className="lp-long">How to use it</span><span className="lp-short">Guide</span></a>
           <a className="lp-wordmark" href="#/welcome"><Mark /> TimetableSama</a>
           <a className="lp-toplink" href={hasData ? '#/home' : '#/school'} onClick={(e) => { e.preventDefault(); start(); }}>
             {hasData ? 'My timetables' : 'Start now'}
@@ -423,6 +423,7 @@ export function Landing({ go }: { go: (p: PageId) => void }) {
             <a href="#/school" onClick={(e) => { e.preventDefault(); start(); }}>Make my timetable</a>
             <a href="#/generate" onClick={(e) => { e.preventDefault(); tryExample(); }}>Open the example school</a>
             <a href="#/home" onClick={(e) => { e.preventDefault(); go('home'); }}>My saved timetables</a>
+            <a href="guide/">How to use TimetableSama</a>
             <a href="#questions">How saving works</a>
           </div>
           <div className="lp-imprint">

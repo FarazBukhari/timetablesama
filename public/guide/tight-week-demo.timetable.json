@@ -1,0 +1,897 @@
+{
+  "version": 1,
+  "school": {
+    "name": "Hillview School (tight week demo)",
+    "academicYear": "2026–2027",
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "periods": [
+      {
+        "id": "p_mvdt2mpd2nexla",
+        "name": "Period 1",
+        "start": "08:00",
+        "end": "08:40",
+        "isBreak": false
+      },
+      {
+        "id": "p_mvdt2mpd18el0b",
+        "name": "Period 2",
+        "start": "08:40",
+        "end": "09:20",
+        "isBreak": false
+      },
+      {
+        "id": "p_mvdt2mpdnm753c",
+        "name": "Period 3",
+        "start": "09:20",
+        "end": "10:00",
+        "isBreak": false
+      },
+      {
+        "id": "p_mvdt2mpeqj5ped",
+        "name": "Break",
+        "start": "10:00",
+        "end": "10:20",
+        "isBreak": true
+      },
+      {
+        "id": "p_mvdt2mpetsw61e",
+        "name": "Period 4",
+        "start": "10:20",
+        "end": "11:00",
+        "isBreak": false
+      },
+      {
+        "id": "p_mvdt2mpeze3wpf",
+        "name": "Period 5",
+        "start": "11:00",
+        "end": "11:40",
+        "isBreak": false
+      },
+      {
+        "id": "p_mvdt2mpefxr7cg",
+        "name": "Lunch",
+        "start": "11:40",
+        "end": "12:10",
+        "isBreak": true
+      },
+      {
+        "id": "p_mvdt2mpeyiu1lh",
+        "name": "Period 6",
+        "start": "12:10",
+        "end": "12:50",
+        "isBreak": false
+      },
+      {
+        "id": "p_mvdt2mpeltfcii",
+        "name": "Period 7",
+        "start": "12:50",
+        "end": "13:30",
+        "isBreak": false
+      }
+    ],
+    "settings": {
+      "maxTeacherPeriodsPerDay": 6,
+      "maxTeacherPeriodsPerDayMode": "hard",
+      "maxConsecutivePeriods": 4,
+      "maxConsecutiveWeight": 5,
+      "classGapWeight": 20,
+      "teacherGapWeight": 2,
+      "spreadWeight": 6,
+      "avoidBreaksInMultiPeriod": true,
+      "periodConsistency": false,
+      "periodConsistencyWeight": 1,
+      "timeLimitSec": 10,
+      "seed": 1,
+      "autoLockMoves": true
+    }
+  },
+  "subjects": [
+    {
+      "id": "s_mvdt2mpe71yuaj",
+      "name": "English",
+      "code": "ENG",
+      "color": "#4f7396",
+      "unavailable": []
+    },
+    {
+      "id": "s_mvdt2mpeeihmhk",
+      "name": "Urdu",
+      "code": "URD",
+      "color": "#6f9460",
+      "unavailable": []
+    },
+    {
+      "id": "s_mvdt2mpel9evdl",
+      "name": "Mathematics",
+      "code": "MATH",
+      "color": "#c3873f",
+      "unavailable": []
+    },
+    {
+      "id": "s_mvdt2mpeljynjm",
+      "name": "Physics",
+      "code": "PHY",
+      "color": "#b05a4b",
+      "unavailable": []
+    },
+    {
+      "id": "s_mvdt2mpew24sen",
+      "name": "Chemistry",
+      "code": "CHEM",
+      "color": "#3f8584",
+      "unavailable": []
+    },
+    {
+      "id": "s_mvdt2mpeaqlnyo",
+      "name": "Islamiat",
+      "code": "ISL",
+      "color": "#a0688a",
+      "unavailable": []
+    },
+    {
+      "id": "s_mvdt2mpev0tcyp",
+      "name": "Pakistan Studies",
+      "code": "PST",
+      "color": "#8a7a3a",
+      "unavailable": []
+    },
+    {
+      "id": "s_mvdt2mpe0pzw4q",
+      "name": "Computer Science",
+      "code": "CS",
+      "color": "#5d6f8c",
+      "unavailable": []
+    },
+    {
+      "id": "s_mvdt2mpe6xrsvr",
+      "name": "Physical Education",
+      "code": "PE",
+      "color": "#c06f52",
+      "unavailable": [
+        "0:5",
+        "0:6",
+        "1:5",
+        "1:6",
+        "2:5",
+        "2:6",
+        "3:5",
+        "3:6",
+        "4:5",
+        "4:6",
+        "5:5",
+        "5:6"
+      ]
+    }
+  ],
+  "teachers": [
+    {
+      "id": "t_mvdt2mpe2nptqs",
+      "name": "Ayesha Khan",
+      "code": "AK",
+      "unavailable": []
+    },
+    {
+      "id": "t_mvdt2mpef0o9kt",
+      "name": "Farhan Ali",
+      "code": "FA",
+      "unavailable": []
+    },
+    {
+      "id": "t_mvdt2mpetft2hu",
+      "name": "Nadia Hussain",
+      "code": "NH",
+      "unavailable": []
+    },
+    {
+      "id": "t_mvdt2mpe3rzowv",
+      "name": "Imran Siddiqui",
+      "code": "IS",
+      "unavailable": [],
+      "maxPerDay": 5
+    },
+    {
+      "id": "t_mvdt2mpe3wmdiw",
+      "name": "Kamran Shah",
+      "code": "KS",
+      "unavailable": []
+    },
+    {
+      "id": "t_mvdt2mpegha9wx",
+      "name": "Sana Javed",
+      "code": "SJ",
+      "unavailable": [
+        "3:0",
+        "3:1",
+        "3:2",
+        "3:3",
+        "3:4",
+        "3:5",
+        "3:6",
+        "4:0",
+        "4:1",
+        "4:2",
+        "4:3",
+        "4:4",
+        "4:5",
+        "4:6",
+        "5:0",
+        "5:1",
+        "5:2",
+        "5:3",
+        "5:4",
+        "5:5",
+        "5:6"
+      ]
+    },
+    {
+      "id": "t_mvdt2mpevmqt1y",
+      "name": "Hafiz Usman",
+      "code": "HU",
+      "unavailable": []
+    },
+    {
+      "id": "t_mvdt2mpefjg7cz",
+      "name": "Bilal Ahmed",
+      "code": "BA",
+      "unavailable": []
+    },
+    {
+      "id": "t_mvdt2mpe47h4j10",
+      "name": "Asad Mehmood",
+      "code": "AM",
+      "unavailable": []
+    },
+    {
+      "id": "t_mvdt2mpefnomd11",
+      "name": "Mehwish Tariq",
+      "code": "MT",
+      "unavailable": []
+    }
+  ],
+  "classes": [
+    {
+      "id": "c_mvdt2mpeuvzro1a",
+      "name": "9A",
+      "classTeacherId": "t_mvdt2mpe2nptqs",
+      "homeRoomId": "r_mvdt2mpe8a8s316",
+      "students": 30,
+      "unavailable": [
+        "5:4",
+        "5:5",
+        "5:6"
+      ]
+    },
+    {
+      "id": "c_mvdt2mpe7vutm1b",
+      "name": "9B",
+      "classTeacherId": "t_mvdt2mpetft2hu",
+      "homeRoomId": "r_mvdt2mpe5yy9n17",
+      "students": 30,
+      "unavailable": [
+        "5:4",
+        "5:5",
+        "5:6"
+      ]
+    },
+    {
+      "id": "c_mvdt2mpeyfkkj1c",
+      "name": "10A",
+      "classTeacherId": "t_mvdt2mpef0o9kt",
+      "homeRoomId": "r_mvdt2mpek5uj418",
+      "students": 30,
+      "unavailable": [
+        "5:4",
+        "5:5",
+        "5:6"
+      ]
+    },
+    {
+      "id": "c_mvdt2mperd1do1d",
+      "name": "10B",
+      "classTeacherId": "t_mvdt2mpe3rzowv",
+      "homeRoomId": "r_mvdt2mpeery0p19",
+      "students": 30,
+      "unavailable": [
+        "5:4",
+        "5:5",
+        "5:6"
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "id": "r_mvdt2mpe8a8s316",
+      "name": "Room 9A",
+      "type": "Classroom",
+      "capacity": 35,
+      "unavailable": []
+    },
+    {
+      "id": "r_mvdt2mpe5yy9n17",
+      "name": "Room 9B",
+      "type": "Classroom",
+      "capacity": 35,
+      "unavailable": []
+    },
+    {
+      "id": "r_mvdt2mpek5uj418",
+      "name": "Room 10A",
+      "type": "Classroom",
+      "capacity": 35,
+      "unavailable": []
+    },
+    {
+      "id": "r_mvdt2mpeery0p19",
+      "name": "Room 10B",
+      "type": "Classroom",
+      "capacity": 35,
+      "unavailable": []
+    },
+    {
+      "id": "r_mvdt2mpe6okew12",
+      "name": "Physics Lab",
+      "type": "Lab",
+      "capacity": 32,
+      "unavailable": []
+    },
+    {
+      "id": "r_mvdt2mpekoi8f13",
+      "name": "Chemistry Lab",
+      "type": "Lab",
+      "capacity": 32,
+      "unavailable": []
+    },
+    {
+      "id": "r_mvdt2mpemw05a14",
+      "name": "Computer Lab",
+      "type": "Computer Lab",
+      "capacity": 30,
+      "unavailable": [
+        "0:0",
+        "0:1",
+        "0:2",
+        "1:0",
+        "1:1",
+        "1:2",
+        "2:0",
+        "2:1",
+        "2:2",
+        "3:0",
+        "3:1",
+        "3:2",
+        "4:0",
+        "4:1",
+        "4:2",
+        "5:0",
+        "5:1",
+        "5:2"
+      ]
+    },
+    {
+      "id": "r_mvdt2mpe5s40m15",
+      "name": "Sports Ground",
+      "type": "Outdoor",
+      "capacity": 100,
+      "unavailable": []
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l_mvdt2mpepecfm1e",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a"
+      ],
+      "subjectId": "s_mvdt2mpe71yuaj",
+      "teacherIds": [
+        "t_mvdt2mpe2nptqs"
+      ],
+      "periodsPerWeek": 5,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpes9h2t1f",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a"
+      ],
+      "subjectId": "s_mvdt2mpeeihmhk",
+      "teacherIds": [
+        "t_mvdt2mpetft2hu"
+      ],
+      "periodsPerWeek": 5,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpehln3t1g",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a"
+      ],
+      "subjectId": "s_mvdt2mpel9evdl",
+      "teacherIds": [
+        "t_mvdt2mpe3rzowv"
+      ],
+      "periodsPerWeek": 7,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 2
+    },
+    {
+      "id": "l_mvdt2mpet02gu1h",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a"
+      ],
+      "subjectId": "s_mvdt2mpeljynjm",
+      "teacherIds": [
+        "t_mvdt2mpe3wmdiw"
+      ],
+      "periodsPerWeek": 5,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpe6okew12"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpeqrf2v1i",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a"
+      ],
+      "subjectId": "s_mvdt2mpew24sen",
+      "teacherIds": [
+        "t_mvdt2mpegha9wx"
+      ],
+      "periodsPerWeek": 6,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpekoi8f13"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpeno9vu1j",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a"
+      ],
+      "subjectId": "s_mvdt2mpeaqlnyo",
+      "teacherIds": [
+        "t_mvdt2mpevmqt1y"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpezx2tp1k",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a"
+      ],
+      "subjectId": "s_mvdt2mpev0tcyp",
+      "teacherIds": [
+        "t_mvdt2mpef0o9kt"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe2o9o61l",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a"
+      ],
+      "subjectId": "s_mvdt2mpe0pzw4q",
+      "teacherIds": [
+        "t_mvdt2mpefjg7cz"
+      ],
+      "periodsPerWeek": 3,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpemw05a14"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpes5b671m",
+      "classIds": [
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpe71yuaj",
+      "teacherIds": [
+        "t_mvdt2mpe2nptqs"
+      ],
+      "periodsPerWeek": 5,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpewe2ex1n",
+      "classIds": [
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpeeihmhk",
+      "teacherIds": [
+        "t_mvdt2mpetft2hu"
+      ],
+      "periodsPerWeek": 5,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe1t9it1o",
+      "classIds": [
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpel9evdl",
+      "teacherIds": [
+        "t_mvdt2mpe3rzowv"
+      ],
+      "periodsPerWeek": 7,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 2
+    },
+    {
+      "id": "l_mvdt2mpeaztqb1p",
+      "classIds": [
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpeljynjm",
+      "teacherIds": [
+        "t_mvdt2mpe3wmdiw"
+      ],
+      "periodsPerWeek": 5,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpe6okew12"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe732e41q",
+      "classIds": [
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpew24sen",
+      "teacherIds": [
+        "t_mvdt2mpegha9wx"
+      ],
+      "periodsPerWeek": 6,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpekoi8f13"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpel7f431r",
+      "classIds": [
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpeaqlnyo",
+      "teacherIds": [
+        "t_mvdt2mpevmqt1y"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe6okjy1s",
+      "classIds": [
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpev0tcyp",
+      "teacherIds": [
+        "t_mvdt2mpef0o9kt"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpepe2bi1t",
+      "classIds": [
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpe0pzw4q",
+      "teacherIds": [
+        "t_mvdt2mpefjg7cz"
+      ],
+      "periodsPerWeek": 3,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpemw05a14"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpecc6et1u",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c"
+      ],
+      "subjectId": "s_mvdt2mpe71yuaj",
+      "teacherIds": [
+        "t_mvdt2mpef0o9kt"
+      ],
+      "periodsPerWeek": 5,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpewvzfv1v",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c"
+      ],
+      "subjectId": "s_mvdt2mpeeihmhk",
+      "teacherIds": [
+        "t_mvdt2mpetft2hu"
+      ],
+      "periodsPerWeek": 5,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpecke3g1w",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c"
+      ],
+      "subjectId": "s_mvdt2mpel9evdl",
+      "teacherIds": [
+        "t_mvdt2mpe3rzowv"
+      ],
+      "periodsPerWeek": 7,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 2
+    },
+    {
+      "id": "l_mvdt2mpeiya5r1x",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c"
+      ],
+      "subjectId": "s_mvdt2mpeljynjm",
+      "teacherIds": [
+        "t_mvdt2mpe3wmdiw"
+      ],
+      "periodsPerWeek": 5,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpe6okew12"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe3oxwa1y",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c"
+      ],
+      "subjectId": "s_mvdt2mpew24sen",
+      "teacherIds": [
+        "t_mvdt2mpegha9wx"
+      ],
+      "periodsPerWeek": 6,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpekoi8f13"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe5fvd21z",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c"
+      ],
+      "subjectId": "s_mvdt2mpeaqlnyo",
+      "teacherIds": [
+        "t_mvdt2mpevmqt1y"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpeoqz8a20",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c"
+      ],
+      "subjectId": "s_mvdt2mpev0tcyp",
+      "teacherIds": [
+        "t_mvdt2mpef0o9kt"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe8iomt21",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c"
+      ],
+      "subjectId": "s_mvdt2mpe0pzw4q",
+      "teacherIds": [
+        "t_mvdt2mpefjg7cz"
+      ],
+      "periodsPerWeek": 3,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpemw05a14"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpejutt322",
+      "classIds": [
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpe71yuaj",
+      "teacherIds": [
+        "t_mvdt2mpef0o9kt"
+      ],
+      "periodsPerWeek": 5,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe0a20123",
+      "classIds": [
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpeeihmhk",
+      "teacherIds": [
+        "t_mvdt2mpetft2hu"
+      ],
+      "periodsPerWeek": 5,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe7xy1424",
+      "classIds": [
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpel9evdl",
+      "teacherIds": [
+        "t_mvdt2mpe3rzowv"
+      ],
+      "periodsPerWeek": 7,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 2
+    },
+    {
+      "id": "l_mvdt2mpew0oh925",
+      "classIds": [
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpeljynjm",
+      "teacherIds": [
+        "t_mvdt2mpe3wmdiw"
+      ],
+      "periodsPerWeek": 5,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpe6okew12"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpeh3wzm26",
+      "classIds": [
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpew24sen",
+      "teacherIds": [
+        "t_mvdt2mpegha9wx"
+      ],
+      "periodsPerWeek": 6,
+      "length": 2,
+      "roomIds": [
+        "r_mvdt2mpekoi8f13"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe5vrkv27",
+      "classIds": [
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpeaqlnyo",
+      "teacherIds": [
+        "t_mvdt2mpevmqt1y"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpeunpz128",
+      "classIds": [
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpev0tcyp",
+      "teacherIds": [
+        "t_mvdt2mpef0o9kt"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpeahc4i29",
+      "classIds": [
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpe0pzw4q",
+      "teacherIds": [
+        "t_mvdt2mpefjg7cz"
+      ],
+      "periodsPerWeek": 3,
+      "length": 3,
+      "roomIds": [
+        "r_mvdt2mpemw05a14"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe7csws2a",
+      "classIds": [
+        "c_mvdt2mpeuvzro1a",
+        "c_mvdt2mpe7vutm1b"
+      ],
+      "subjectId": "s_mvdt2mpe6xrsvr",
+      "teacherIds": [
+        "t_mvdt2mpe47h4j10",
+        "t_mvdt2mpefnomd11"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [
+        "r_mvdt2mpe5s40m15"
+      ],
+      "maxPerDay": 1
+    },
+    {
+      "id": "l_mvdt2mpe6nsh62b",
+      "classIds": [
+        "c_mvdt2mpeyfkkj1c",
+        "c_mvdt2mperd1do1d"
+      ],
+      "subjectId": "s_mvdt2mpe6xrsvr",
+      "teacherIds": [
+        "t_mvdt2mpe47h4j10",
+        "t_mvdt2mpefnomd11"
+      ],
+      "periodsPerWeek": 2,
+      "length": 1,
+      "roomIds": [
+        "r_mvdt2mpe5s40m15"
+      ],
+      "maxPerDay": 1
+    }
+  ],
+  "cards": [],
+  "unplaced": []
+}

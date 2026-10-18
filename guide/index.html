@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="How to make a school timetable with TimetableSama: practice timetables, a step-by-step walkthrough with screenshots, moving lessons by hand, printing and exports." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%234f46e5'/><path d='M8 10h16M8 16h16M8 22h10' stroke='white' stroke-width='3' stroke-linecap='round'/></svg>" />
+    <title>How to use TimetableSama</title>
+    <script type="module" src="/src/guide/guide.ts"></script>
+  </head>
+  <body>
+    
+    <div class="cover gutter">
+      <div class="cover-inner">
+        <a class="brand" href="../">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="4" width="24" height="21" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 10h24M10 10v15M18 10v15M2 17.5h24" stroke="currentColor" stroke-width="2"/><rect x="11" y="11.5" width="6" height="5" rx="1" fill="#f2b33d"/></svg>
+          TimetableSama
+        </a>
+        <h1>How to make your school timetable</h1>
+        <p class="lead">A step-by-step guide with screenshots. Start with the two practice timetables, then follow the walkthrough to see how lessons are placed, what happens when they don't fit, and how to move them by hand.</p>
+        <div class="facts">
+          <span class="fact"><b>No account</b> needed</span>
+          <span class="fact">Saves <b>in your browser</b></span>
+          <span class="fact">Excel and PDF are <b>free</b></span>
+        </div>
+        <div class="cover-links">
+          <a class="btnlink" href="../#/home">Open TimetableSama</a>
+          <a href="tight-week-demo.timetable.json" download="Tight week demo.timetable.json">Download the practice file</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="frame gutter">
+      <nav class="toc" aria-label="Contents">
+        <div class="toc-label">Contents</div>
+        <a href="#practice">Practice timetables</a>
+        <a href="#idea">How the steps fit together</a>
+        <a href="#walkthrough">Walkthrough</a>
+        <a href="#tips">Things that catch people out</a>
+        <a href="#saving">Keeping your work safe</a>
+        <a href="#timetablemaster">Coming from TimetableMaster</a>
+      </nav>
+    
+      <main>
+        <section id="practice">
+          <header>
+            <span class="eyebrow">Start here</span>
+            <h2>Two practice timetables</h2>
+          </header>
+          <p class="prose">Before you type in your own school, open a practice timetable and press a few buttons. Nothing you do there affects anything else, and you can delete it afterwards.</p>
+          <div class="pair">
+            <div class="sheet">
+              <span class="tag">Everything fits</span>
+              <h3>The sample school</h3>
+              <p>Six classes and thirteen teachers. Every lesson fits, so this shows what a finished timetable looks like.</p>
+              <p class="path">Open <a href="../#/home"><b>My timetables</b></a>, then press <b>+ Sample school</b>.</p>
+            </div>
+            <div class="sheet">
+              <span class="tag sun">Two problems to fix</span>
+              <h3>The tight week</h3>
+              <p>Hillview School: four classes, Monday to Saturday, with a half day on Saturday. It has two mistakes in it on purpose, so you can see how the app tells you what's wrong.</p>
+              <a class="btnlink" href="tight-week-demo.timetable.json" download="Tight week demo.timetable.json">Download the practice file</a>
+              <p class="path">Then open <a href="../#/home"><b>My timetables</b></a>, press <b>Import backup…</b> and choose the file you downloaded.</p>
+            </div>
+          </div>
+          <figure class="shot">
+            <button type="button"><img src="./shots/01-start.jpg" width="1920" height="1230" alt="The My timetables page with the + Sample school, + Blank project and Import backup buttons, and the ten steps in the menu on the left." loading="lazy"></button>
+            <figcaption>My timetables. The menu on the left lists the ten steps in order. A tick appears on each step once it has something in it.</figcaption>
+          </figure>
+        </section>
+    
+        <section id="idea">
+          <header>
+            <span class="eyebrow">The one idea</span>
+            <h2>How the steps fit together</h2>
+          </header>
+          <div class="prose">
+            <p>The menu has ten steps, but they do four different jobs. Most of the work is typing lists. The timetable itself comes from one table: <b>Lessons</b>.</p>
+          </div>
+          <div class="flow">
+            <div class="phase">
+              <span class="phase-name">Lists</span>
+              <div class="chips"><span class="step"><i>1</i>School day</span><span class="step"><i>2</i>Subjects</span><span class="step"><i>3</i>Teachers</span><span class="step"><i>4</i>Classes</span><span class="step"><i>5</i>Rooms</span></div>
+              <p>Just names and times. Nothing is scheduled here.</p>
+            </div>
+            <div class="phase key">
+              <span class="phase-name">The real input</span>
+              <div class="chips"><span class="step"><i>6</i>Lessons</span></div>
+              <p>Who teaches what, to which class, how often.</p>
+            </div>
+            <div class="phase">
+              <span class="phase-name">Rules</span>
+              <div class="chips"><span class="step"><i>7</i>Availability</span></div>
+              <p>Times that are never allowed. Optional.</p>
+            </div>
+            <div class="phase">
+              <span class="phase-name">Create, fix and print</span>
+              <div class="chips"><span class="step"><i>8</i>Create timetable</span><span class="step"><i>9</i>View &amp; print</span><span class="step"><i>10</i>Reports</span></div>
+              <p>Check, create, then move lessons by hand.</p>
+            </div>
+          </div>
+          <div class="units">
+            <p><b>Each lesson is cut into pieces.</b> A piece is one card on the timetable, and each piece gets a day, a period and a room. "Lessons a week" divided by "Arrange as" decides the pieces, and any leftover becomes a shorter piece.</p>
+            <div class="units-row">
+              <span class="lbl">Physics, 5 a week, <b>Doubles</b></span><span class="arrow" aria-hidden="true">→</span>
+              <span class="blocks" role="img" aria-label="two doubles and one single"><span class="blk w2">2</span><span class="blk w2">2</span><span class="blk w1">1</span></span>
+            </div>
+            <div class="units-row">
+              <span class="lbl">Urdu, 5 a week, <b>Singles</b></span><span class="arrow" aria-hidden="true">→</span>
+              <span class="blocks" role="img" aria-label="five singles"><span class="blk w1">1</span><span class="blk w1">1</span><span class="blk w1">1</span><span class="blk w1">1</span><span class="blk w1">1</span></span>
+            </div>
+            <div class="units-row">
+              <span class="lbl">Computer, 3 a week, <b>Triples</b></span><span class="arrow" aria-hidden="true">→</span>
+              <span class="blocks" role="img" aria-label="one triple"><span class="blk w3">3</span></span>
+            </div>
+          </div>
+        </section>
+    
+        <section id="walkthrough">
+          <header>
+            <span class="eyebrow">Walkthrough</span>
+            <h2>Fixing the tight week</h2>
+          </header>
+          <p class="prose">Follow these steps with the tight-week practice file open. It takes about ten minutes.</p>
+    
+          <ol class="steps-list">
+            <li>
+              <h3>Check the school day</h3>
+              <p class="prose">After the import you land on <span class="ui">School day</span>. Hillview runs Monday to Saturday, with seven 40-minute periods, a break after period 3 and lunch after period 5. You can rebuild the bells with <span class="ui">Quick build</span> at the bottom of the page.</p>
+              <figure class="shot">
+                <button type="button"><img src="./shots/02-school-day.jpg" width="1920" height="1230" alt="The School day page showing the school name, the working days Monday to Saturday and the bell schedule." loading="lazy"></button>
+                <figcaption>Every day uses the same bells. Saturday's half day is handled in Availability, in step 3.</figcaption>
+              </figure>
+            </li>
+    
+            <li>
+              <h3>Read the lessons table</h3>
+              <div class="prose">
+                <p>Open <span class="ui">Lessons</span>. The form at the top adds lessons. Pick the classes, the subject, the teachers and how many a week. If you pick several classes, it adds one lesson for each class. Tick <span class="ui">Joint lesson</span> when those classes are taught together, like PE here.</p>
+                <p>Use the filter on the right of <span class="ui">All lessons</span> to show one class. In 10B, look at Computer Science: it is set to <b>Triples</b>. That is the first mistake.</p>
+                <p>On a smaller screen each lesson shows as a card with the same boxes, instead of a row.</p>
+              </div>
+              <figure class="shot mid">
+                <button type="button"><img src="./shots/03-add-lessons.jpg" width="1428" height="483" alt="The Add lessons form with fields for classes, subject, teachers, allowed rooms, lessons a week, arrange as and most in a day." loading="lazy"></button>
+                <figcaption>Leave <b>Allowed rooms</b> empty and the lesson goes in the class's home room.</figcaption>
+              </figure>
+              <figure class="shot mid">
+                <button type="button"><img src="./shots/04-lessons-10b.jpg" width="1908" height="1295" alt="The All lessons table filtered to class 10B. Computer Science is set to Triples. The last row is a joint PE lesson for 10A and 10B with two teachers." loading="lazy"></button>
+                <figcaption>10B's lessons. Mathematics has <b>Most in a day: 2</b> because 7 lessons won't fit in 6 days at one a day. Under doubles and triples, "Placed as" shows the pieces. The PE row is a joint lesson with two teachers.</figcaption>
+              </figure>
+            </li>
+    
+            <li>
+              <h3>Look at the rules</h3>
+              <div class="prose">
+                <p>Open <span class="ui">Availability</span>. Choose a teacher, class, room or subject, then click boxes to mark times as <b>Off</b>. Click a day or period name to change a whole row or column.</p>
+                <p>The tight week has a rule on each tab:</p>
+              </div>
+              <ul class="do">
+                <li><b>Teachers:</b> Sana Javed (Chemistry) only works Monday to Wednesday. That is the second mistake: she has more lessons than free periods.</li>
+                <li><b>Classes:</b> every class is off on Saturday periods 5 to 7, which makes Saturday a half day.</li>
+                <li><b>Rooms:</b> the Computer Lab is used by the junior school every morning.</li>
+                <li><b>Subjects:</b> PE is never in periods 6 and 7, because it's too hot outside after lunch.</li>
+              </ul>
+              <div class="shots-2">
+                <figure class="shot">
+                  <button type="button"><img src="./shots/05-availability-sana.jpg" width="1428" height="773" alt="Availability grid for Sana Javed with Thursday, Friday and Saturday marked Off." loading="lazy"></button>
+                  <figcaption>Sana Javed: off Thursday to Saturday.</figcaption>
+                </figure>
+                <figure class="shot">
+                  <button type="button"><img src="./shots/06-availability-lab.jpg" width="1428" height="773" alt="Availability grid for the Computer Lab with periods 1 to 3 marked Off on every day." loading="lazy"></button>
+                  <figcaption>Computer Lab: off in periods 1 to 3 every day.</figcaption>
+                </figure>
+              </div>
+            </li>
+    
+            <li>
+              <h3>Read the pre-check, then create</h3>
+              <div class="prose">
+                <p>Open <span class="ui">Create timetable</span>. Before you press anything, the <b>Pre-check</b> compares how many lessons each teacher, class and room needs with how many periods they have free.</p>
+                <p><b>Red</b> means something can't fit. <b>Amber</b> means it's tight but should work. Red doesn't stop you: press <span class="ui">Create timetable</span> anyway to see what happens.</p>
+              </div>
+              <div class="shots-2">
+                <figure class="shot">
+                  <button type="button"><img src="./shots/07-precheck.jpg" width="717" height="657" alt="Pre-check with two red messages, for Computer Science and Sana Javed, and one amber message for Imran Siddiqui." loading="lazy"></button>
+                  <figcaption>Two red problems and one amber warning.</figcaption>
+                </figure>
+                <figure class="shot">
+                  <button type="button"><img src="./shots/08-rules.jpg" width="717" height="927" alt="The Rules panel with limits for teacher periods per day and in a row, sliders for gaps and spreading, and the time limit and seed." loading="lazy"></button>
+                  <figcaption>Rules. The defaults are sensible, so most schools never change them.</figcaption>
+                </figure>
+              </div>
+              <figure class="shot">
+                <button type="button"><img src="./shots/09-result-unplaced.jpg" width="1428" height="845" alt="Result: 4 units (9 periods) could not be placed, with a table of the lesson, classes, length and the reason for each." loading="lazy"></button>
+                <figcaption>The result lists every lesson that didn't fit, with the reason. Three Chemistry doubles had no room in Sana's three days, and the 10B Computer triple has no possible slot.</figcaption>
+              </figure>
+              <figure class="shot">
+                <button type="button"><img src="./shots/10-unscheduled-tray.jpg" width="1428" height="294" alt="The Unscheduled tray under the timetable with four lesson cards waiting to be placed." loading="lazy"></button>
+                <figcaption>The same lessons wait in <b>Unscheduled</b> under the timetable on <b>View &amp; print</b>. You can drag them in by hand.</figcaption>
+              </figure>
+            </li>
+    
+            <li>
+              <h3>Fix the two problems</h3>
+              <div class="callout fix">
+                <b>Fix 1: Computer Science for 10B</b>
+                <p>In <span class="ui">Lessons</span>, filter to 10B and change Computer Science from <b>Triples</b> to <b>Doubles</b>. A block of three only fits in periods 1 to 3, because doubles and triples never run across a break. Those are exactly the hours the Computer Lab is busy.</p>
+              </div>
+              <div class="callout fix">
+                <b>Fix 2: Sana Javed's days</b>
+                <p>In <span class="ui">Availability</span>, choose Sana Javed and click the words <b>Thursday</b> and <b>Friday</b> to make both days free.</p>
+              </div>
+              <p class="prose">Go back to <span class="ui">Create timetable</span> and press <span class="ui">Create again</span>.</p>
+              <figure class="shot">
+                <button type="button"><img src="./shots/11-result-all-placed.jpg" width="1428" height="311" alt="Result: All lessons placed. 120 cards, no clashes." loading="lazy"></button>
+                <figcaption>All 120 lesson cards placed, with no clashes. The amber warning for Imran Siddiqui stays, which is fine.</figcaption>
+              </figure>
+            </li>
+    
+            <li>
+              <h3>Check the timetable and move lessons by hand</h3>
+              <div class="prose">
+                <p>Open <span class="ui">View &amp; print</span>. Switch between <span class="ui">Classes</span>, <span class="ui">Teachers</span> and <span class="ui">Rooms</span>, and use <span class="ui">Previous</span> and <span class="ui">Next</span> to page through them. Striped boxes are times that are off, like Saturday afternoon.</p>
+                <p>To move a lesson, drag it, or tap it and then tap a box. While you move it, every box shows whether the lesson can go there:</p>
+              </div>
+              <div class="legend">
+                <span><span class="sw ok"></span><b>Green</b> free</span>
+                <span><span class="sw warn"></span><b>Amber</b> taken, but you can swap or make room</span>
+                <span><span class="sw bad"></span><b>Red</b> not allowed</span>
+              </div>
+              <figure class="shot">
+                <button type="button"><img src="./shots/12-timetable-9a.jpg" width="1920" height="1230" alt="The View and print page showing class 9A's timetable with export buttons along the top." loading="lazy"></button>
+                <figcaption>Class 9A. Double periods span two boxes. The colour key at the bottom shows each subject's count and teacher.</figcaption>
+              </figure>
+              <figure class="shot">
+                <button type="button"><img src="./shots/14-moving.jpg" width="1416" height="1185" alt="9A's timetable while Islamiat on Tuesday period 3 is selected. Thursday period 7 is green and most boxes are amber." loading="lazy"></button>
+                <figcaption>Islamiat is selected. Thursday period 7 is green because the class and the teacher are both free. Most boxes are amber because 9A is busy then.</figcaption>
+              </figure>
+              <div class="shots-2">
+                <figure class="shot">
+                  <button type="button"><img src="./shots/16-dialog.jpg" width="828" height="419" alt="A dialog titled Something is in the way, with the choices Swap the two lessons, Move that lesson to Unscheduled, and Cancel." loading="lazy"></button>
+                  <figcaption>Tapping an amber box asks what to do with the lesson that's in the way.</figcaption>
+                </figure>
+                <figure class="shot">
+                  <button type="button"><img src="./shots/15-picked-panel.jpg" width="1428" height="287" alt="The selected lesson panel with a room choice and the buttons Lock in place, Fix to this slot and Unschedule." loading="lazy"></button>
+                  <figcaption>The panel under the timetable changes the room, locks the lesson, pins it, or takes it off the timetable.</figcaption>
+                </figure>
+              </div>
+              <figure class="shot">
+                <button type="button"><img src="./shots/17-after-swap.jpg" width="1416" height="1227" alt="After the swap, a green message confirms it and both moved lessons show a small lock icon." loading="lazy"></button>
+                <figcaption>After a swap, both lessons show a lock. When you create the timetable again, locked lessons stay where you put them.</figcaption>
+              </figure>
+              <div class="callout warn">
+                <b>Lock or fix?</b>
+                <p><b>Lock</b> keeps a lesson in place when you create the timetable again. <span class="ui">Unlock all</span> and <span class="ui">Clear unlocked lessons</span> release locks. <b>Fix to this slot</b> is stronger: nothing moves a fixed lesson, not even <span class="ui">Clear all</span>. Use it for things that never change, like assembly.</p>
+              </div>
+            </li>
+    
+            <li>
+              <h3>Print and export</h3>
+              <div class="prose">
+                <p>The buttons at the top of <span class="ui">View &amp; print</span>:</p>
+              </div>
+              <div class="buttons"><span class="btnlike">Excel</span><span class="btnlike">CSV</span><span class="btnlike">CSV (this view)</span><span class="btnlike">Print / PDF</span><span class="btnlike">Print all classes</span><span class="btnlike">Download backup</span></div>
+              <ul class="do">
+                <li><b>Excel</b> makes one sheet for every class, teacher and room. Excel may ask you to confirm before opening the file. Choose Yes.</li>
+                <li><b>Print / PDF</b> prints what's on screen. To make a PDF, choose "Save as PDF" in the print window.</li>
+                <li><b>Print all classes</b> prints every class on its own page. On the Teachers tab it prints every teacher.</li>
+                <li><b>Overview</b> shows all classes on one sheet, good for the staffroom wall.</li>
+              </ul>
+              <figure class="shot">
+                <button type="button"><img src="./shots/18-overview.jpg" width="1344" height="522" alt="The Overview tab showing all four classes in rows, with every day and period in columns." loading="lazy"></button>
+                <figcaption>Overview: every class, every period, in one table.</figcaption>
+              </figure>
+            </li>
+    
+            <li>
+              <h3>Check workloads</h3>
+              <p class="prose"><span class="ui">Reports</span> shows each teacher's periods per day, gaps and longest run without a break, and whether every class got all its lessons. You can download it as CSV.</p>
+              <figure class="shot mid">
+                <button type="button"><img src="./shots/19-workload.jpg" width="1428" height="803" alt="The teacher workload report: one row per teacher with periods for each day, scheduled, required, gaps and longest run." loading="lazy"></button>
+                <figcaption>Teacher workload. A red "Required" number means that teacher has lessons still unscheduled.</figcaption>
+              </figure>
+            </li>
+          </ol>
+        </section>
+    
+        <section id="tips">
+          <header>
+            <span class="eyebrow">Good to know</span>
+            <h2>Things that catch people out</h2>
+          </header>
+          <div class="tips">
+            <div class="tip"><h3>Create again or try another arrangement?</h3><p>Create again gives the same result unless you changed something. Try another arrangement shuffles and gives a different timetable. Both keep locked and fixed lessons.</p></div>
+            <div class="tip"><h3>Some changes remove placed lessons</h3><p>Changing a lesson's "Lessons a week" or "Arrange as" sends that lesson back to Unscheduled. Changing the number of days, periods or breaks clears the whole timetable.</p></div>
+            <div class="tip"><h3>Six periods a day is the limit</h3><p>By default no teacher teaches more than 6 periods a day. A part-time teacher who works three days can take at most 18. Change it per teacher on the Teachers page, or for everyone under Rules.</p></div>
+            <div class="tip"><h3>"Most in a day" is per lesson</h3><p>It stops the same lesson landing twice on one day. If a class has more lessons of a subject than there are days, set it to 2.</p></div>
+            <div class="tip"><h3>Several classes, one lesson each</h3><p>Picking several classes in the form adds a separate lesson for each. Tick "Joint lesson" only when the classes sit together with the same teacher.</p></div>
+            <div class="tip"><h3>Some fields are only for your records</h3><p>Class teacher, number of students and room capacity are kept and printed, but the timetable doesn't use them when placing lessons.</p></div>
+            <div class="tip"><h3>Where are the reasons?</h3><p>The reasons for unplaced lessons are on Create timetable. On View &amp; print, hold the mouse over a card in Unscheduled to see its reason.</p></div>
+            <div class="tip"><h3>Undo works everywhere</h3><p>Use the Undo button at the bottom of the menu, or Ctrl+Z. It goes back up to 40 changes.</p></div>
+          </div>
+        </section>
+    
+        <section id="saving">
+          <header>
+            <span class="eyebrow">Saving</span>
+            <h2>Keeping your work safe</h2>
+          </header>
+          <div class="prose">
+            <p>Your timetable saves by itself, but only <b>in this browser on this computer</b>. Nothing is uploaded and there is no account. Clearing your browser history, or using a private window, removes it.</p>
+            <p>Press <span class="ui">Download backup</span> after any big change. The backup is one small file. To carry on at another computer, open TimetableSama there and use <span class="ui">Import backup…</span> on My timetables. An amber reminder at the top of the page appears until you've made a backup.</p>
+            <p class="muted">You can keep several timetables side by side, for example a draft and a final version. Use Duplicate, Rename and the "Timetable you are working on" list in the menu.</p>
+          </div>
+        </section>
+    
+        <section id="timetablemaster">
+          <header>
+            <span class="eyebrow">If you used TimetableMaster before</span>
+            <h2>Coming from TimetableMaster</h2>
+          </header>
+          <p class="prose">TimetableSama follows the same steps, so most of what you know carries over. These lists compare it with TimetableMaster's own help pages as of October 2026.</p>
+          <div class="compare">
+            <div class="col">
+              <h3>The same</h3>
+              <ul>
+                <li><b>The same steps</b><span>Bell schedule, subjects, teachers, classes, rooms, lessons, generate, adjust, export.</span></li>
+                <li><b>Short codes and pasting lists</b><span>Paste names straight from a spreadsheet.</span></li>
+                <li><b>Combined classes and team teaching</b><span>Several classes or several teachers on one lesson. Singles, doubles and triples.</span></li>
+                <li><b>Time off</b><span>For teachers, classes, subjects and rooms.</span></li>
+                <li><b>A check before generating</b><span>Plus a list of lessons that didn't fit.</span></li>
+                <li><b>Drag and drop</b><span>With clash checks, swapping and undo.</span></li>
+                <li><b>Excel and PDF</b><span>Free here. They are paid features on TimetableMaster.</span></li>
+              </ul>
+            </div>
+            <div class="col diff">
+              <h3>Done differently</h3>
+              <ul>
+                <li><b>Shorter days</b><span>One bell schedule for every day. For a short Friday or Saturday, mark the last periods Off for every class, as the tight week does.</span></li>
+                <li><b>Week A and Week B</b><span>Add the days twice, named "A Mon", "B Mon" and so on.</span></li>
+                <li><b>Mixed lengths in one lesson</b><span>Leftovers are automatic: 5 as doubles gives 2 + 2 + 1. For other mixes, add two lesson rows.</span></li>
+                <li><b>Saving</b><span>In your browser instead of online. Share by sending the backup file.</span></li>
+                <li><b>PDF</b><span>Made from the print window with "Save as PDF".</span></li>
+                <li><b>Rules you can tune</b><span>Daily limits, gaps and spreading have their own settings.</span></li>
+              </ul>
+            </div>
+            <div class="col miss">
+              <h3>Not here yet</h3>
+              <ul>
+                <li><b>Splitting a class into groups</b><span>For example Biology and Computer electives at the same time, or half-class labs.</span></li>
+                <li><b>Staff logins and sharing</b><span>No accounts, roles or shared editing.</span></li>
+                <li><b>Substitutions and leave</b><span>No cover planning, absence or school calendar.</span></li>
+                <li><b>Apps and imports</b><span>No mobile app, email sharing, or import from other timetable programs.</span></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+    
+        <footer class="end"><a href="../#/home">Back to TimetableSama</a>. Screenshots taken with the tight-week practice file, October 2026. Names in the practice file are made up.</footer>
+      </main>
+    </div>
+    
+    <dialog class="lb" id="lb" aria-label="Enlarged screenshot">
+      <button type="button" id="lb-close" aria-label="Close"></button>
+      <p id="lb-cap"></p>
+    </dialog>
+    
+  </body>
+</html>
