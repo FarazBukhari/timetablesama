@@ -83,7 +83,8 @@ scratchpad, not the repo.
 ## Phase 6 — Ship
 
 - Update `README.md` (features, how to run, how it differs from the original).
-- Commit with a descriptive message on the designated branch and `git push -u origin <branch>`.
+- Commit on a `feature/<topic>` branch (never a `claude/` prefix), push it, then merge into
+  `main`. Pushing `main` triggers the Vercel production deploy.
 - Do not open a PR unless the user asks.
 
 ## Guardrails
