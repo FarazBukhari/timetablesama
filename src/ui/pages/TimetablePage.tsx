@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import {
-  buildGrid, cardResolver, cardsToCsv, downloadText, exportProjectJson, gridToCsv, projectToExcelXml,
+  buildGrid, cardResolver, cardsToCsv, downloadText, gridToCsv, projectToExcelXml,
   type CellEntry, type ResolvedCard, type ViewKind,
 } from '../../export';
 import { teachingPeriods, uid, unitLengths } from '../../model/defaults';
@@ -31,7 +31,7 @@ function evaluateDrop(project: Project, drag: Drag, day: number, period: number)
 const slug = (s: string) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'timetable';
 
 export function TimetablePage() {
-  const { project, update } = useProject();
+  const { project, update, backup } = useProject();
   const [view, setView] = useState<View>('class');
   const [entityId, setEntityId] = useState('');
   const [drag, setDrag] = useState<Drag | null>(null);
@@ -118,7 +118,7 @@ export function TimetablePage() {
       )}
       <button className="btn" onClick={() => window.print()}>Print / PDF</button>
       <button className="btn" onClick={() => setPrintAll(kind)} title={`Print every ${kind} timetable, one per page`}>Print all {kind === 'class' ? 'classes' : `${kind}s`}</button>
-      <button className="btn" onClick={() => downloadText(`${fileBase}.timetable.json`, exportProjectJson(project), 'application/json')}>Save project</button>
+      <button className="btn" onClick={backup} title="Download the whole project as a file you can import later">Download backup</button>
     </>
   );
 

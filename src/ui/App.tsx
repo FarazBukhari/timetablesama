@@ -7,6 +7,7 @@ import { LessonsPage } from './pages/LessonsPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { SchoolPage } from './pages/SchoolPage';
 import { TimetablePage } from './pages/TimetablePage';
+import { SaveBanner, SaveStatus } from './SaveBanner';
 import { useProject } from './store';
 
 export type PageId =
@@ -33,7 +34,7 @@ const readHash = (): PageId => {
 };
 
 export function App() {
-  const { project, undo, redo, canUndo, canRedo } = useProject();
+  const { project, undo, redo, canUndo, canRedo, projects, active, openProject } = useProject();
   const [page, setPage] = useState<PageId>(readHash);
   const [theme, setTheme] = useState<string>(() => {
     try {
@@ -102,6 +103,14 @@ export function App() {
           </button>
         ))}
         <div className="sidebar-foot">
+          <label className="field">
+            Project
+            <select value={active.id} onChange={(e) => openProject(e.target.value)}>
+              {projects.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
+            </select>
+          </label>
+          <button className="btn sm" onClick={() => go('home')}>Manage projects</button>
+          <SaveStatus />
           <div className="row">
             <button className="btn sm" onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">↶ Undo</button>
             <button className="btn sm" onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
@@ -114,10 +123,10 @@ export function App() {
               <option value="dark">Dark</option>
             </select>
           </label>
-          <span className="muted small">Free forever · data stays in your browser</span>
         </div>
       </nav>
       <main className="main">
+        <SaveBanner />
         {page === 'home' && <HomePage go={go} />}
         {page === 'school' && <SchoolPage />}
         {page === 'subjects' && <SubjectsPage />}

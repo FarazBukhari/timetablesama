@@ -194,6 +194,9 @@ table.data tr:hover td { background: var(--surface-2); }
 .alert.warning { background: var(--warn-soft); color: var(--warn); }
 .alert.ok { background: var(--ok-soft); color: var(--ok); }
 .alert b { margin-right: 6px; }
+.alert.banner { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-bottom: 16px; }
+.alert.banner > div:first-child { flex: 1 1 320px; }
+.project-row.current td { background: var(--accent-soft); }
 .progress { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
 .progress > div { height: 100%; background: var(--accent); transition: width 0.2s; }
 

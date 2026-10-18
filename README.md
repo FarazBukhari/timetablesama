@@ -33,7 +33,14 @@ and every export is free.
   project file for backup and sharing.
 - **Reports:** teacher workload (per day, gaps, longest run) and class coverage
   (scheduled vs required).
-- Light and dark themes, a mobile-friendly layout, and autosave in the browser.
+- **Multiple projects:** keep several schools or drafts in the same browser. Create from the
+  sample or blank, import a backup, then open, rename, duplicate or delete from the Start page or
+  the sidebar switcher.
+- **Saving you can see:** projects autosave in the browser and the sidebar shows the save status
+  and when the last backup was made. A red banner appears if the browser blocks or runs out of
+  storage. Once a timetable is generated, a reminder suggests downloading a backup file until one
+  is made. If storage isn't working, closing the tab asks you to confirm first.
+- Light and dark themes and a mobile-friendly layout.
 
 ## Run it
 
@@ -53,7 +60,7 @@ about a second.
 src/model/    types, defaults, sample school
 src/solver/   generator engine (pure TS), feasibility check, clash validator, Web Worker
 src/export/   grid builder, CSV, Excel (SpreadsheetML), JSON import/export
-src/ui/       React app: store (autosave + undo), pages, components
+src/ui/       React app: store (projects, autosave, undo), persistence, pages, components
 docs/         research notes, spec, decisions
 .claude/skills/orchestrator/   the /orchestrator skill that drives this project
 ```

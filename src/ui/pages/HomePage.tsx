@@ -1,34 +1,34 @@
 import { useRef, useState } from 'react';
 import { emptyProject } from '../../model/defaults';
 import { sampleProject } from '../../model/sample';
-import { downloadText, exportProjectJson, parseProjectJson } from '../../export';
+import { parseProjectJson } from '../../export';
 import type { PageId } from '../App';
 import { PageHead, Stat } from '../components';
+import { timeAgo } from '../SaveBanner';
 import { useProject } from '../store';
 
 export function HomePage({ go }: { go: (p: PageId) => void }) {
-  const { project, replace } = useProject();
+  const { project, projects, active, createProject, openProject, renameProject, duplicateProject, deleteProject, backup } = useProject();
   const fileRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
+  const [renaming, setRenaming] = useState<string | null>(null);
   const hasData = project.subjects.length + project.teachers.length + project.classes.length > 0;
-
-  const confirmReplace = () => !hasData || window.confirm('This replaces your current school data. Continue?');
 
   const importFile = async (file: File) => {
     try {
-      replace(parseProjectJson(await file.text()));
+      const p = parseProjectJson(await file.text());
+      createProject(p, file.name.replace(/\.timetable\.json$|\.json$/i, '') || p.school.name);
       setError('');
+      go(p.cards.length ? 'timetable' : 'school');
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     }
   };
 
-  const slug = project.school.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'timetable';
-
   return (
     <>
       <PageHead
-        title={hasData ? project.school.name : 'Free school timetable generator'}
+        title={hasData ? active.name : 'Free school timetable generator'}
         desc="Build a clash-free timetable in minutes: no account, no plan limits, and free exports. Everything stays in your browser."
       />
 
@@ -43,6 +43,79 @@ export function HomePage({ go }: { go: (p: PageId) => void }) {
         </div>
       )}
 
+      <div className="card">
+        <div className="row" style={{ marginBottom: 10 }}>
+          <h2 style={{ margin: 0 }}>Your projects</h2>
+          <span className="muted small">Saved in this browser</span>
+          <span className="spacer" />
+          <button className="btn primary" onClick={() => { createProject(sampleProject()); go('generate'); }}>+ Sample school</button>
+          <button className="btn" onClick={() => { createProject(emptyProject(), 'New school'); go('school'); }}>+ Blank project</button>
+          <button className="btn" onClick={() => fileRef.current?.click()}>Import backup…</button>
+          <input
+            ref={fileRef}
+            type="file"
+            accept=".json,application/json"
+            hidden
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) importFile(f);
+              e.target.value = '';
+            }}
+          />
+        </div>
+        {error && <div className="alert error">{error}</div>}
+        <div className="table-wrap">
+          <table className="data">
+            <thead><tr><th>Name</th><th>Last edited</th><th>Last backup</th><th /></tr></thead>
+            <tbody>
+              {[...projects].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).map((m) => {
+                const current = m.id === active.id;
+                return (
+                  <tr key={m.id} className={`project-row${current ? ' current' : ''}`}>
+                    <td style={{ minWidth: 180 }}>
+                      {renaming === m.id ? (
+                        <input
+                          autoFocus
+                          defaultValue={m.name}
+                          aria-label="Project name"
+                          onBlur={(e) => { renameProject(m.id, e.target.value.trim() || m.name); setRenaming(null); }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') e.currentTarget.blur();
+                            if (e.key === 'Escape') setRenaming(null);
+                          }}
+                        />
+                      ) : (
+                        <span>{m.name} {current && <span className="chip">open</span>}</span>
+                      )}
+                    </td>
+                    <td className="muted">{timeAgo(m.updatedAt)}</td>
+                    <td className="muted">{timeAgo(m.lastBackupAt)}</td>
+                    <td style={{ whiteSpace: 'nowrap', textAlign: 'right' }}>
+                      {current ? (
+                        <button className="btn sm" onClick={backup}>Download backup</button>
+                      ) : (
+                        <button className="btn sm primary" onClick={() => openProject(m.id)}>Open</button>
+                      )}
+                      <button className="btn ghost sm" onClick={() => setRenaming(m.id)}>Rename</button>
+                      <button className="btn ghost sm" onClick={() => duplicateProject(m.id)}>Duplicate</button>
+                      <button
+                        className="btn ghost sm danger"
+                        onClick={() => window.confirm(`Delete "${m.name}" from this browser? This can't be undone unless you have a backup file.`) && deleteProject(m.id)}
+                      >Delete</button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        {hasData && (
+          <div className="row" style={{ marginTop: 12 }}>
+            <button className="btn" onClick={() => go(project.cards.length ? 'timetable' : 'lessons')}>Continue with {active.name} →</button>
+          </div>
+        )}
+      </div>
+
       <div className="grid-2">
         <div className="card">
           <h2>How it works</h2>
@@ -55,45 +128,15 @@ export function HomePage({ go }: { go: (p: PageId) => void }) {
             <li><div><b>Adjust & export.</b> <span className="muted">Drag and drop, lock cards, then print, PDF, Excel or CSV.</span></div></li>
           </ol>
         </div>
-
         <div className="card">
-          <h2>Get started</h2>
-          <p className="muted">Try the sample school first to see a full timetable, or start from a blank school.</p>
-          <div className="row" style={{ marginBottom: 12 }}>
-            <button className="btn primary lg" onClick={() => confirmReplace() && (replace(sampleProject()), go('generate'))}>
-              Load sample school
-            </button>
-            <button className="btn lg" onClick={() => confirmReplace() && (replace(emptyProject()), go('school'))}>
-              Start blank
-            </button>
-          </div>
-          {hasData && (
-            <p>
-              <button className="btn" onClick={() => go(project.cards.length ? 'timetable' : 'lessons')}>
-                Continue where you left off →
-              </button>
-            </p>
-          )}
-          <h3 style={{ marginTop: 16 }}>Backup & share</h3>
-          <p className="muted small">Projects save automatically in this browser. Export a file to back it up or move it to another computer.</p>
-          <div className="row">
-            <button className="btn" onClick={() => downloadText(`${slug}.timetable.json`, exportProjectJson(project), 'application/json')}>
-              Export project (.json)
-            </button>
-            <button className="btn" onClick={() => fileRef.current?.click()}>Import project…</button>
-            <input
-              ref={fileRef}
-              type="file"
-              accept=".json,application/json"
-              hidden
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f && confirmReplace()) importFile(f);
-                e.target.value = '';
-              }}
-            />
-          </div>
-          {error && <div className="alert error" style={{ marginTop: 10 }}>{error}</div>}
+          <h2>Where is my work saved?</h2>
+          <p className="muted">
+            Projects save automatically in <b>this browser on this device</b>. There's no account, so nothing is uploaded.
+          </p>
+          <p className="muted">
+            To keep a project safe or open it somewhere else, use <b>Download backup</b>, then <b>Import backup</b> on the
+            other computer. Clearing browser data or using a private window removes saved projects.
+          </p>
         </div>
       </div>
     </>
