@@ -1,0 +1,135 @@
+import { useEffect, useState } from 'react';
+import { AvailabilityPage } from './pages/AvailabilityPage';
+import { ClassesPage, RoomsPage, SubjectsPage, TeachersPage } from './pages/DataPages';
+import { GeneratePage } from './pages/GeneratePage';
+import { HomePage } from './pages/HomePage';
+import { LessonsPage } from './pages/LessonsPage';
+import { ReportsPage } from './pages/ReportsPage';
+import { SchoolPage } from './pages/SchoolPage';
+import { TimetablePage } from './pages/TimetablePage';
+import { useProject } from './store';
+
+export type PageId =
+  | 'home' | 'school' | 'subjects' | 'teachers' | 'classes' | 'rooms' | 'lessons'
+  | 'availability' | 'generate' | 'timetable' | 'reports';
+
+const PAGES: { id: PageId; label: string }[] = [
+  { id: 'home', label: 'Start' },
+  { id: 'school', label: 'School & bells' },
+  { id: 'subjects', label: 'Subjects' },
+  { id: 'teachers', label: 'Teachers' },
+  { id: 'classes', label: 'Classes' },
+  { id: 'rooms', label: 'Rooms' },
+  { id: 'lessons', label: 'Lessons' },
+  { id: 'availability', label: 'Availability' },
+  { id: 'generate', label: 'Generate' },
+  { id: 'timetable', label: 'Timetable' },
+  { id: 'reports', label: 'Reports' },
+];
+
+const readHash = (): PageId => {
+  const h = window.location.hash.replace('#/', '') as PageId;
+  return PAGES.some((p) => p.id === h) ? h : 'home';
+};
+
+export function App() {
+  const { project, undo, redo, canUndo, canRedo } = useProject();
+  const [page, setPage] = useState<PageId>(readHash);
+  const [theme, setTheme] = useState<string>(() => {
+    try {
+      return localStorage.getItem('timetablesama.theme') ?? 'auto';
+    } catch {
+      return 'auto';
+    }
+  });
+
+  useEffect(() => {
+    const onHash = () => setPage(readHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  useEffect(() => {
+    if (theme === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('timetablesama.theme', theme);
+    } catch {
+      /* ignore */
+    }
+  }, [theme]);
+
+  const go = (id: PageId) => {
+    window.location.hash = `#/${id}`;
+    setPage(id);
+    window.scrollTo(0, 0);
+  };
+
+  const counts: Partial<Record<PageId, number>> = {
+    subjects: project.subjects.length,
+    teachers: project.teachers.length,
+    classes: project.classes.length,
+    rooms: project.rooms.length,
+    lessons: project.lessons.length,
+    timetable: project.cards.length,
+  };
+  const done: Partial<Record<PageId, boolean>> = {
+    school: project.school.days.length > 0 && project.school.periods.some((p) => !p.isBreak),
+    subjects: project.subjects.length > 0,
+    teachers: project.teachers.length > 0,
+    classes: project.classes.length > 0,
+    rooms: project.rooms.length > 0,
+    lessons: project.lessons.length > 0,
+    generate: project.cards.length > 0,
+  };
+
+  return (
+    <div className="app">
+      <nav className="sidebar" aria-label="Steps">
+        <div className="brand">
+          <span className="brand-mark" aria-hidden>▦</span>
+          TimetableSama
+        </div>
+        {PAGES.map((p, i) => (
+          <button
+            key={p.id}
+            className={`nav-item${page === p.id ? ' active' : ''}${done[p.id] ? ' done' : ''}`}
+            onClick={() => go(p.id)}
+            aria-current={page === p.id ? 'page' : undefined}
+          >
+            <span className="nav-step">{done[p.id] ? '✓' : i === 0 ? '★' : i}</span>
+            {p.label}
+            {counts[p.id] !== undefined && <span className="count">{counts[p.id]}</span>}
+          </button>
+        ))}
+        <div className="sidebar-foot">
+          <div className="row">
+            <button className="btn sm" onClick={undo} disabled={!canUndo} title="Undo (Ctrl+Z)">↶ Undo</button>
+            <button className="btn sm" onClick={redo} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">↷ Redo</button>
+          </div>
+          <label className="field">
+            Theme
+            <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+              <option value="auto">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+          <span className="muted small">Free forever · data stays in your browser</span>
+        </div>
+      </nav>
+      <main className="main">
+        {page === 'home' && <HomePage go={go} />}
+        {page === 'school' && <SchoolPage />}
+        {page === 'subjects' && <SubjectsPage />}
+        {page === 'teachers' && <TeachersPage />}
+        {page === 'classes' && <ClassesPage />}
+        {page === 'rooms' && <RoomsPage />}
+        {page === 'lessons' && <LessonsPage />}
+        {page === 'availability' && <AvailabilityPage />}
+        {page === 'generate' && <GeneratePage go={go} />}
+        {page === 'timetable' && <TimetablePage />}
+        {page === 'reports' && <ReportsPage />}
+      </main>
+    </div>
+  );
+}
