@@ -5,6 +5,17 @@ landing page, and its companion **redesign-skill** (`.claude/skills/redesign-ski
 screens. taste-skill says it is not meant for app screens. Both are MIT-licensed, from
 github.com/Leonxlnx/taste-skill.
 
+## Palette and depth (October 2026 revision)
+The first version followed taste-skill's house style strictly, with flat fields and no shadows. The
+owner found it too flat, so the house rules against shadows and rounded "soft" corners were set
+aside on purpose:
+- **Palette:** deep teal `#0f3b40` and `#0f6f66`, warm white `#fbfaf6`, and marigold `#f2b33d`
+  for highlights, with sky, mint, peach and pale aqua tints for sections. There is a matching dark
+  theme.
+- **Depth:** surfaces read as stacked paper. Cards, folders, sheets and buttons have rounded corners
+  and soft shadows tinted with teal, and buttons lift on hover.
+- **Phones:** every data table turns into labelled cards, one per row, so no field is ever cut off.
+
 ## Audience
 Teachers and school office staff who may not be confident with computers. That means:
 - Text at 17px or larger, buttons and fields at least 44px tall, and fields with visible edges.

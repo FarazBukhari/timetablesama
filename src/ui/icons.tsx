@@ -6,8 +6,8 @@ const base = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strok
 /** Wordmark symbol: a timetable sheet with a filing tab. */
 export const Mark = (p: P) => (
   <svg viewBox="0 0 32 32" aria-hidden {...p}>
-    <path d="M4 9h9l2-4h13v23H4z" fill="#2c3620" />
-    <path d="M8 14h16M8 19h16M8 24h10M14 11v15M20 11v15" stroke="#e3e2da" strokeWidth="1.8" />
+    <path d="M4 9h9l2-4h13v23H4z" fill="#0f6f66" />
+    <path d="M8 14h16M8 19h16M8 24h10M14 11v15M20 11v15" stroke="#ffffff" strokeWidth="1.8" />
   </svg>
 );
 export const Check = (p: P) => <svg {...base} {...p}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>;

@@ -64,6 +64,12 @@ export function App() {
     }
   }, [theme]);
 
+  // On phones the step bar scrolls sideways: keep the current step in view.
+  useEffect(() => {
+    if (!window.matchMedia('(max-width: 900px)').matches) return;
+    document.querySelector('.sidebar .nav-item.active')?.scrollIntoView({ inline: 'center', block: 'nearest' });
+  }, [page]);
+
   const go = (id: PageId) => {
     window.location.hash = `#/${id}`;
     setPage(id);

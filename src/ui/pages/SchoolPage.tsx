@@ -94,12 +94,12 @@ export function SchoolPage() {
             <tbody>
               {school.periods.map((p, i) => (
                 <tr key={p.id}>
-                  <td className="muted">{p.isBreak ? '—' : ++teach}</td>
-                  <td><input value={p.name} aria-label="Period name" onChange={(e) => patchPeriod(p.id, { name: e.target.value })} /></td>
-                  <td><input type="time" value={p.start} aria-label="Start time" onChange={(e) => patchPeriod(p.id, { start: e.target.value })} /></td>
-                  <td><input type="time" value={p.end} aria-label="End time" onChange={(e) => patchPeriod(p.id, { end: e.target.value })} /></td>
-                  <td><input type="checkbox" checked={p.isBreak} aria-label="Is break" onChange={(e) => patchPeriod(p.id, { isBreak: e.target.checked })} /></td>
-                  <td style={{ whiteSpace: 'nowrap' }}>
+                  <td data-label="Lesson" className="muted hide-phone">{p.isBreak ? '—' : ++teach}</td>
+                  <td data-label="Name" className="wide"><input value={p.name} aria-label="Period name" onChange={(e) => patchPeriod(p.id, { name: e.target.value })} /></td>
+                  <td data-label="Starts"><input type="time" value={p.start} aria-label="Start time" onChange={(e) => patchPeriod(p.id, { start: e.target.value })} /></td>
+                  <td data-label="Ends"><input type="time" value={p.end} aria-label="End time" onChange={(e) => patchPeriod(p.id, { end: e.target.value })} /></td>
+                  <td data-label="Break"><input type="checkbox" checked={p.isBreak} aria-label="Is break" onChange={(e) => patchPeriod(p.id, { isBreak: e.target.checked })} /></td>
+                  <td className="actions" style={{ whiteSpace: 'nowrap' }}>
                     <button className="btn ghost sm" onClick={() => move(i, -1)} disabled={i === 0}>Up</button>
                     <button className="btn ghost sm" onClick={() => move(i, 1)} disabled={i === school.periods.length - 1}>Down</button>
                     <button className="btn sm danger" onClick={() => setPeriods(school.periods.filter((x) => x.id !== p.id))}>Delete</button>

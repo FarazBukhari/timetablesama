@@ -54,11 +54,11 @@ export function SubjectsPage() {
             {!items.length && <Empty what="subjects" />}
             {items.map((s) => (
               <tr key={s.id}>
-                <td><input type="color" value={s.color} aria-label="Colour" onChange={(e) => patch(s.id, { color: e.target.value })} /></td>
-                <td><input value={s.name} aria-label="Name" onChange={(e) => patch(s.id, { name: e.target.value })} /></td>
-                <td><input value={s.code} aria-label="Code" style={{ maxWidth: 100 }} onChange={(e) => patch(s.id, { code: e.target.value })} /></td>
-                <td className="muted">{load(project, (l) => l.subjectId === s.id)}</td>
-                <td><DeleteBtn name={s.name} onClick={() => remove(s.id, s.name)} /></td>
+                <td data-label="Colour"><input type="color" value={s.color} aria-label="Colour" onChange={(e) => patch(s.id, { color: e.target.value })} /></td>
+                <td data-label="Name"><input value={s.name} aria-label="Name" onChange={(e) => patch(s.id, { name: e.target.value })} /></td>
+                <td data-label="Code"><input value={s.code} aria-label="Code" style={{ maxWidth: 100 }} onChange={(e) => patch(s.id, { code: e.target.value })} /></td>
+                <td data-label="Lessons a week" className="muted">{load(project, (l) => l.subjectId === s.id)}</td>
+                <td className="actions"><DeleteBtn name={s.name} onClick={() => remove(s.id, s.name)} /></td>
               </tr>
             ))}
           </tbody>
@@ -87,16 +87,16 @@ export function TeachersPage() {
             {!items.length && <Empty what="teachers" />}
             {items.map((t) => (
               <tr key={t.id}>
-                <td><input value={t.name} aria-label="Name" onChange={(e) => patch(t.id, { name: e.target.value })} /></td>
-                <td><input value={t.code} aria-label="Code" style={{ maxWidth: 80 }} onChange={(e) => patch(t.id, { code: e.target.value })} /></td>
-                <td><input value={t.email ?? ''} aria-label="Email" type="email" onChange={(e) => patch(t.id, { email: e.target.value })} /></td>
-                <td>
+                <td data-label="Name" className="wide"><input value={t.name} aria-label="Name" onChange={(e) => patch(t.id, { name: e.target.value })} /></td>
+                <td data-label="Code"><input value={t.code} aria-label="Code" style={{ maxWidth: 80 }} onChange={(e) => patch(t.id, { code: e.target.value })} /></td>
+                <td data-label="Email"><input value={t.email ?? ''} aria-label="Email" type="email" onChange={(e) => patch(t.id, { email: e.target.value })} /></td>
+                <td data-label="Most a day">
                   <NumberInput value={t.maxPerDay || undefined} ariaLabel="Max periods per day" max={16} onChange={(n) => patch(t.id, { maxPerDay: n || undefined })} />
                   {!t.maxPerDay && <span className="muted small"> usual {max || 'no limit'}</span>}
                 </td>
-                <td className="muted">{load(project, (l) => l.teacherIds.includes(t.id))}</td>
-                <td className="muted">{t.unavailable.length ? `${t.unavailable.length} slots` : '—'}</td>
-                <td><DeleteBtn name={t.name} onClick={() => remove(t.id, t.name)} /></td>
+                <td data-label="Lessons a week" className="muted">{load(project, (l) => l.teacherIds.includes(t.id))}</td>
+                <td data-label="Days off" className="muted">{t.unavailable.length ? `${t.unavailable.length} slots` : '—'}</td>
+                <td className="actions"><DeleteBtn name={t.name} onClick={() => remove(t.id, t.name)} /></td>
               </tr>
             ))}
           </tbody>
@@ -127,22 +127,22 @@ export function ClassesPage() {
               const used = load(project, (l) => l.classIds.includes(c.id));
               return (
                 <tr key={c.id}>
-                  <td><input value={c.name} aria-label="Name" onChange={(e) => patch(c.id, { name: e.target.value })} /></td>
-                  <td>
+                  <td data-label="Name" className="wide"><input value={c.name} aria-label="Name" onChange={(e) => patch(c.id, { name: e.target.value })} /></td>
+                  <td data-label="Class teacher">
                     <select value={c.classTeacherId ?? ''} aria-label="Class teacher" onChange={(e) => patch(c.id, { classTeacherId: e.target.value || undefined })}>
                       <option value="">—</option>
                       {project.teachers.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
                     </select>
                   </td>
-                  <td>
+                  <td data-label="Home room">
                     <select value={c.homeRoomId ?? ''} aria-label="Home room" onChange={(e) => patch(c.id, { homeRoomId: e.target.value || undefined })}>
                       <option value="">—</option>
                       {project.rooms.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
                     </select>
                   </td>
-                  <td><NumberInput value={c.students} max={2000} ariaLabel="Students" onChange={(n) => patch(c.id, { students: n || undefined })} /></td>
-                  <td style={{ color: used > weekly ? 'var(--danger)' : 'var(--muted)' }}>{used} / {weekly}</td>
-                  <td><DeleteBtn name={c.name} onClick={() => remove(c.id, c.name)} /></td>
+                  <td data-label="Students"><NumberInput value={c.students} max={2000} ariaLabel="Students" onChange={(n) => patch(c.id, { students: n || undefined })} /></td>
+                  <td data-label="Lessons a week" style={{ color: used > weekly ? 'var(--danger)' : 'var(--muted)' }}>{used} / {weekly}</td>
+                  <td className="actions"><DeleteBtn name={c.name} onClick={() => remove(c.id, c.name)} /></td>
                 </tr>
               );
             })}
@@ -173,11 +173,11 @@ export function RoomsPage() {
             {!items.length && <Empty what="rooms" />}
             {items.map((r) => (
               <tr key={r.id}>
-                <td><input value={r.name} aria-label="Name" onChange={(e) => patch(r.id, { name: e.target.value })} /></td>
-                <td><input value={r.type} aria-label="Type" list="room-types" onChange={(e) => patch(r.id, { type: e.target.value })} /></td>
-                <td><NumberInput value={r.capacity} max={5000} ariaLabel="Capacity" onChange={(n) => patch(r.id, { capacity: n || undefined })} /></td>
-                <td className="muted">{project.classes.filter((c) => c.homeRoomId === r.id).map((c) => c.name).join(', ') || '—'}</td>
-                <td><DeleteBtn name={r.name} onClick={() => remove(r.id, r.name)} /></td>
+                <td data-label="Name" className="wide"><input value={r.name} aria-label="Name" onChange={(e) => patch(r.id, { name: e.target.value })} /></td>
+                <td data-label="Type"><input value={r.type} aria-label="Type" list="room-types" onChange={(e) => patch(r.id, { type: e.target.value })} /></td>
+                <td data-label="Capacity"><NumberInput value={r.capacity} max={5000} ariaLabel="Capacity" onChange={(n) => patch(r.id, { capacity: n || undefined })} /></td>
+                <td data-label="Home room of" className="muted">{project.classes.filter((c) => c.homeRoomId === r.id).map((c) => c.name).join(', ') || '—'}</td>
+                <td className="actions"><DeleteBtn name={r.name} onClick={() => remove(r.id, r.name)} /></td>
               </tr>
             ))}
           </tbody>

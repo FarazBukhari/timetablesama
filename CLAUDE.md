@@ -8,3 +8,5 @@
   `lint.mjs` and `inspect.mjs`; as root, set `CHROME_PATH` to a wrapper that adds `--no-sandbox`) and
   `.claude/skills/redesign-skill` for workspace screens. Keep words instead of symbols, 44px targets
   and 17px text: the users are teachers, not technicians.
+- **Commit attribution:** author and commit as `Faraz Bukhari <fuz.bukhari@gmail.com>`. Do not add
+  `Co-Authored-By: Claude` or `Claude-Session` lines to commit messages or PR descriptions.

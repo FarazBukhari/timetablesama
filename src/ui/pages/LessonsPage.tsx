@@ -141,8 +141,8 @@ export function LessonsPage() {
               {!shown.length && <tr><td colSpan={9} className="empty">No lessons yet.</td></tr>}
               {shown.map((l) => (
                 <tr key={l.id}>
-                  <td style={{ minWidth: 130 }}><MultiSelect ariaLabel="Classes" options={classOpts} value={l.classIds} onChange={(classIds) => patch(l.id, { classIds })} /></td>
-                  <td style={{ minWidth: 140 }}>
+                  <td data-label="Classes" style={{ minWidth: 130 }}><MultiSelect ariaLabel="Classes" options={classOpts} value={l.classIds} onChange={(classIds) => patch(l.id, { classIds })} /></td>
+                  <td data-label="Subject" style={{ minWidth: 140 }}>
                     <div className="row" style={{ flexWrap: 'nowrap', gap: 6 }}>
                       <span className="dot" style={{ background: subjects.get(l.subjectId)?.color }} />
                       <select value={l.subjectId} aria-label="Subject" onChange={(e) => patch(l.id, { subjectId: e.target.value })}>
@@ -151,17 +151,17 @@ export function LessonsPage() {
                       </select>
                     </div>
                   </td>
-                  <td style={{ minWidth: 140 }}><MultiSelect ariaLabel="Teachers" options={teacherOpts} value={l.teacherIds} onChange={(teacherIds) => patch(l.id, { teacherIds })} /></td>
-                  <td><NumberInput value={l.periodsPerWeek} min={0} max={40} ariaLabel="Periods per week" onChange={(periodsPerWeek) => patch(l.id, { periodsPerWeek })} /></td>
-                  <td>
+                  <td data-label="Teachers" className="wide" style={{ minWidth: 140 }}><MultiSelect ariaLabel="Teachers" options={teacherOpts} value={l.teacherIds} onChange={(teacherIds) => patch(l.id, { teacherIds })} /></td>
+                  <td data-label="Lessons a week"><NumberInput value={l.periodsPerWeek} min={0} max={40} ariaLabel="Periods per week" onChange={(periodsPerWeek) => patch(l.id, { periodsPerWeek })} /></td>
+                  <td data-label="Arrange as">
                     <select value={l.length} aria-label="Arrange" onChange={(e) => patch(l.id, { length: Number(e.target.value) })}>
                       {LENGTHS.map((x) => <option key={x.v} value={x.v}>{x.label}</option>)}
                     </select>
                   </td>
-                  <td><NumberInput value={l.maxPerDay} min={1} max={10} ariaLabel="Max per day" onChange={(maxPerDay) => patch(l.id, { maxPerDay })} /></td>
-                  <td style={{ minWidth: 130 }}><MultiSelect ariaLabel="Rooms" options={roomOpts} value={l.roomIds} onChange={(roomIds) => patch(l.id, { roomIds })} placeholder="Home room" /></td>
-                  <td className="muted small">{unitLengths(l).join('+')}</td>
-                  <td><button className="btn sm danger" aria-label="Delete lesson" onClick={() => remove(l.id)}>Delete</button></td>
+                  <td data-label="Most in a day"><NumberInput value={l.maxPerDay} min={1} max={10} ariaLabel="Max per day" onChange={(maxPerDay) => patch(l.id, { maxPerDay })} /></td>
+                  <td data-label="Rooms" className="wide" style={{ minWidth: 130 }}><MultiSelect ariaLabel="Rooms" options={roomOpts} value={l.roomIds} onChange={(roomIds) => patch(l.id, { roomIds })} placeholder="Home room" /></td>
+                  <td data-label="Placed as" className="muted small">{unitLengths(l).join('+')}</td>
+                  <td className="actions"><button className="btn sm danger" aria-label="Delete lesson" onClick={() => remove(l.id)}>Delete</button></td>
                 </tr>
               ))}
             </tbody>

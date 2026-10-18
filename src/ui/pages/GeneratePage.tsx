@@ -120,10 +120,10 @@ export function GeneratePage({ go }: { go: (p: PageId) => void }) {
                     const l = lessons.get(u.lessonId);
                     return (
                       <tr key={`${u.lessonId}#${u.unit}`}>
-                        <td>{subjects.get(l?.subjectId ?? '')?.name ?? '?'}</td>
-                        <td>{l?.classIds.map((c) => classNames.get(c)).join(' + ')}</td>
-                        <td>{u.length}</td>
-                        <td className="small">{u.reason}</td>
+                        <td data-label="Lesson">{subjects.get(l?.subjectId ?? '')?.name ?? '?'}</td>
+                        <td data-label="Classes">{l?.classIds.map((c) => classNames.get(c)).join(' + ')}</td>
+                        <td data-label="Length">{u.length}</td>
+                        <td data-label="Why" className="small wide">{u.reason}</td>
                       </tr>
                     );
                   })}

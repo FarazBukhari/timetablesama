@@ -72,7 +72,7 @@ export function HomePage({ go }: { go: (p: PageId) => void }) {
                 const current = m.id === active.id;
                 return (
                   <tr key={m.id} className={`project-row${current ? ' current' : ''}`}>
-                    <td style={{ minWidth: 180 }}>
+                    <td data-label="Name" className="wide" style={{ minWidth: 180 }}>
                       {renaming === m.id ? (
                         <input
                           autoFocus
@@ -88,9 +88,9 @@ export function HomePage({ go }: { go: (p: PageId) => void }) {
                         <span>{m.name} {current && <span className="chip">open</span>}</span>
                       )}
                     </td>
-                    <td className="muted">{timeAgo(m.updatedAt)}</td>
-                    <td className="muted">{timeAgo(m.lastBackupAt)}</td>
-                    <td style={{ whiteSpace: 'nowrap', textAlign: 'right' }}>
+                    <td data-label="Last edited" className="muted">{timeAgo(m.updatedAt)}</td>
+                    <td data-label="Last backup" className="muted">{timeAgo(m.lastBackupAt)}</td>
+                    <td className="actions" style={{ whiteSpace: 'nowrap', textAlign: 'right' }}>
                       {current ? (
                         <button className="btn sm" onClick={backup}>Download backup</button>
                       ) : (
