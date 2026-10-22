@@ -65,9 +65,7 @@ src/model/    types, defaults, sample school
 src/solver/   generator engine (pure TS), feasibility check, clash validator, Web Worker
 src/export/   grid builder, CSV, Excel (SpreadsheetML), JSON import/export
 src/ui/       React app: store (projects, autosave, undo), persistence, pages, components
-docs/         research notes, spec, decisions
-.claude/skills/orchestrator/   the /orchestrator skill that drives this project
-.claude/skills/taste-skill/     design skills (MIT, Leonxlnx/taste-skill) used for the redesign
+docs/         research notes, spec, decisions, design notes
 src/landing/  welcome page; public/pictures/ openly licensed archival pictures
 guide/        user guide page at /guide/ (styles and script in src/guide/, practice file in public/guide/)
 ```
