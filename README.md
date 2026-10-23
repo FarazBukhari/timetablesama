@@ -5,6 +5,10 @@ free TimetableMaster generator, which now sits behind a paywall (10-day Pro tria
 see [`docs/RESEARCH.md`](docs/RESEARCH.md)). There are no accounts, no plan limits and no server,
 and every export is free.
 
+**Use it online at [timetablesama.pages.dev](https://timetablesama.pages.dev).** There is nothing
+to install, and your timetables stay in your browser. New to it? Read the
+[step-by-step guide](https://timetablesama.pages.dev/guide/).
+
 ## Features
 
 - **School & bell schedule:** working days (Mon–Fri, Mon–Sat, Sun–Thu or a custom cycle),
