@@ -1,5 +1,5 @@
-import { PALETTE, initials, uid, unitLengths } from '../../model/defaults';
-import type { Project, Room, SchoolClass, Subject, Teacher } from '../../model/types';
+import { newClass, newRoom, newSubject, newTeacher, uniqueCode, unitLengths } from '../../model/defaults';
+import type { Project } from '../../model/types';
 import { BulkAdd, NumberInput, PageHead } from '../components';
 import { removeReferences, useProject } from '../store';
 
@@ -32,26 +32,50 @@ const DeleteBtn = ({ onClick, name }: { onClick: () => void; name: string }) => 
   <button className="btn sm danger" aria-label={`Delete ${name}`} onClick={onClick}>Delete</button>
 );
 
-const Empty = ({ what }: { what: string }) => (
-  <tr><td colSpan={9} className="empty"><b>No {what} yet</b>Use the Add button above, or paste a list you already have.</td></tr>
+const Empty = ({ what, fromLessons = false }: { what: string; fromLessons?: boolean }) => (
+  <tr>
+    <td colSpan={9} className="empty">
+      <b>No {what} yet</b>Use the Add button above, or paste a list you already have.
+      {fromLessons && <> If you have a spreadsheet of lessons, <a href="#/lessons">import it on the Lessons step</a> and the {what} in it are added for you.</>}
+    </td>
+  </tr>
 );
+
+/** Shown inside "Paste a list" on the pages the lessons import can fill in. */
+const LessonsTip = ({ what }: { what: string }) => (
+  <p className="help">Have a spreadsheet of lessons? <a href="#/lessons">Import it on the Lessons step</a> and the {what} in it are added for you.</p>
+);
+
+/** Short codes not used yet, made for the rows of a pasted list that don't give their own. */
+function withUniqueCodes<T extends { code: string }>(items: T[], taken: string[], given: (i: number) => string | undefined): T[] {
+  const codes = [...taken];
+  return items.map((x, i) => {
+    const code = given(i) ? x.code : uniqueCode(x.code, codes);
+    codes.push(code);
+    return { ...x, code };
+  });
+}
 
 export function SubjectsPage() {
   const { project, items, patch, add, remove } = useCollection('subjects');
-  const make = (name: string, code?: string, i = items.length): Subject => ({
-    id: uid('s'), name, code: code || initials(name), color: PALETTE[i % PALETTE.length], unavailable: [],
-  });
+  const taken = items.map((s) => s.code);
   return (
     <>
       <PageHead title="Subjects" desc="Type each subject your school teaches. The short code and colour show on the printed timetable.">
-        <button className="btn primary" onClick={() => add(make(`Subject ${items.length + 1}`))}>+ Add subject</button>
-        <BulkAdd hint="Name, code (optional)." onAdd={(rows) => add(...rows.map((r, i) => make(r[0], r[1], items.length + i)))} />
+        <button className="btn primary" onClick={() => add(newSubject(`Subject ${items.length + 1}`, undefined, items.length))}>+ Add subject</button>
+        <BulkAdd
+          hint="Name, code (optional)."
+          existing={items.map((s) => s.name)}
+          onAdd={(rows) => add(...withUniqueCodes(rows.map((r, i) => newSubject(r[0], r[1], items.length + i)), taken, (i) => rows[i][1]))}
+        >
+          <LessonsTip what="subjects" />
+        </BulkAdd>
       </PageHead>
       <div className="card table-wrap">
         <table className="data">
           <thead><tr><th>Colour</th><th>Name</th><th>Code</th><th>Periods / week</th><th /></tr></thead>
           <tbody>
-            {!items.length && <Empty what="subjects" />}
+            {!items.length && <Empty what="subjects" fromLessons />}
             {items.map((s) => (
               <tr key={s.id}>
                 <td data-label="Colour"><input type="color" value={s.color} aria-label="Colour" onChange={(e) => patch(s.id, { color: e.target.value })} /></td>
@@ -70,21 +94,25 @@ export function SubjectsPage() {
 
 export function TeachersPage() {
   const { project, items, patch, add, remove } = useCollection('teachers');
-  const make = (name: string, code?: string, email?: string): Teacher => ({
-    id: uid('t'), name, code: code || initials(name), email, unavailable: [],
-  });
+  const taken = items.map((t) => t.code);
   const max = project.school.settings.maxTeacherPeriodsPerDay;
   return (
     <>
       <PageHead title="Teachers" desc="Type each teacher’s name. If someone works part-time, you can mark their days off in the Availability step.">
-        <button className="btn primary" onClick={() => add(make(`Teacher ${items.length + 1}`))}>+ Add teacher</button>
-        <BulkAdd hint="Name, short code (optional), email (optional)." onAdd={(rows) => add(...rows.map((r) => make(r[0], r[1], r[2])))} />
+        <button className="btn primary" onClick={() => add(newTeacher(`Teacher ${items.length + 1}`))}>+ Add teacher</button>
+        <BulkAdd
+          hint="Name, short code (optional), email (optional)."
+          existing={items.map((t) => t.name)}
+          onAdd={(rows) => add(...withUniqueCodes(rows.map((r) => newTeacher(r[0], r[1], r[2])), taken, (i) => rows[i][1]))}
+        >
+          <LessonsTip what="teachers" />
+        </BulkAdd>
       </PageHead>
       <div className="card table-wrap">
         <table className="data">
           <thead><tr><th>Name</th><th>Code</th><th>Email</th><th>Max periods/day</th><th>Periods / week</th><th>Unavailable</th><th /></tr></thead>
           <tbody>
-            {!items.length && <Empty what="teachers" />}
+            {!items.length && <Empty what="teachers" fromLessons />}
             {items.map((t) => (
               <tr key={t.id}>
                 <td data-label="Name" className="wide"><input value={t.name} aria-label="Name" onChange={(e) => patch(t.id, { name: e.target.value })} /></td>
@@ -108,21 +136,20 @@ export function TeachersPage() {
 
 export function ClassesPage() {
   const { project, items, patch, add, remove } = useCollection('classes');
-  const make = (name: string, students?: string): SchoolClass => ({
-    id: uid('c'), name, students: students ? Number(students) || undefined : undefined, unavailable: [],
-  });
   const weekly = project.school.days.length * project.school.periods.filter((p) => !p.isBreak).length;
   return (
     <>
       <PageHead title="Classes" desc="Add each class or form, for example 7A or Year 9 Blue. Give a class a home room and its lessons will go there unless you choose another room.">
-        <button className="btn primary" onClick={() => add(make(`Class ${items.length + 1}`))}>+ Add class</button>
-        <BulkAdd hint="Name, number of students (optional)." onAdd={(rows) => add(...rows.map((r) => make(r[0], r[1])))} />
+        <button className="btn primary" onClick={() => add(newClass(`Class ${items.length + 1}`))}>+ Add class</button>
+        <BulkAdd hint="Name, number of students (optional)." existing={items.map((c) => c.name)} onAdd={(rows) => add(...rows.map((r) => newClass(r[0], r[1])))}>
+          <LessonsTip what="classes" />
+        </BulkAdd>
       </PageHead>
       <div className="card table-wrap">
         <table className="data">
           <thead><tr><th>Name</th><th>Class teacher</th><th>Home room</th><th>Students</th><th>Periods / week</th><th /></tr></thead>
           <tbody>
-            {!items.length && <Empty what="classes" />}
+            {!items.length && <Empty what="classes" fromLessons />}
             {items.map((c) => {
               const used = load(project, (l) => l.classIds.includes(c.id));
               return (
@@ -155,15 +182,12 @@ export function ClassesPage() {
 
 export function RoomsPage() {
   const { project, items, patch, add, remove } = useCollection('rooms');
-  const make = (name: string, type?: string, capacity?: string): Room => ({
-    id: uid('r'), name, type: type || 'Classroom', capacity: capacity ? Number(capacity) || undefined : undefined, unavailable: [],
-  });
   const types = [...new Set(items.map((r) => r.type).filter(Boolean))];
   return (
     <>
       <PageHead title="Rooms" desc="Add the rooms you timetable: classrooms, labs, the hall. If a lesson needs a special room, you choose it in the Lessons step.">
-        <button className="btn primary" onClick={() => add(make(`Room ${items.length + 1}`))}>+ Add room</button>
-        <BulkAdd hint="Name, type (optional), capacity (optional)." onAdd={(rows) => add(...rows.map((r) => make(r[0], r[1], r[2])))} />
+        <button className="btn primary" onClick={() => add(newRoom(`Room ${items.length + 1}`))}>+ Add room</button>
+        <BulkAdd hint="Name, type (optional), capacity (optional)." existing={items.map((r) => r.name)} onAdd={(rows) => add(...rows.map((r) => newRoom(r[0], r[1], r[2])))} />
       </PageHead>
       <datalist id="room-types">{types.map((t) => <option key={t} value={t} />)}</datalist>
       <div className="card table-wrap">

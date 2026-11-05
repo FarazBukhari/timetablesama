@@ -1,21 +1,19 @@
 import { useMemo, useState } from 'react';
+import { LENGTH_LABELS as LENGTHS } from '../../import';
 import { newLesson, unitLengths } from '../../model/defaults';
 import type { Lesson } from '../../model/types';
 import { MultiSelect, NumberInput, PageHead, type Option } from '../components';
+import { ImportLessons } from '../ImportLessons';
 import { useProject } from '../store';
-
-const LENGTHS = [
-  { v: 1, label: 'Singles' },
-  { v: 2, label: 'Doubles' },
-  { v: 3, label: 'Triples' },
-  { v: 4, label: 'Blocks of 4' },
-];
 
 export function LessonsPage() {
   const { project, update } = useProject();
   const [filter, setFilter] = useState('');
   const [draft, setDraft] = useState<Lesson>(() => newLesson());
   const [joint, setJoint] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [notice, setNotice] = useState('');
+  const startImport = () => { setNotice(''); setImporting(true); };
 
   const classOpts: Option[] = project.classes.map((c) => ({ value: c.id, label: c.name }));
   const teacherOpts: Option[] = project.teachers.map((t) => ({ value: t.id, label: t.name }));
@@ -68,10 +66,19 @@ export function LessonsPage() {
       <PageHead
         title="Lessons"
         desc="Each lesson is a subject taught to one or more classes by one or more teachers, a number of periods each week."
-      />
+      >
+        {!importing && <button className="btn" onClick={startImport}>Import from Excel…</button>}
+      </PageHead>
 
-      {missing ? (
-        <div className="alert warning">Add at least one subject and one class first.</div>
+      {notice && <div className="alert ok" role="status">{notice}</div>}
+
+      {importing ? (
+        <ImportLessons onClose={() => setImporting(false)} onDone={(m) => { setNotice(m); setImporting(false); }} />
+      ) : missing ? (
+        <div className="alert warning">
+          Add at least one subject and one class first, or import all your lessons from a spreadsheet with{' '}
+          <b>Import from Excel</b>. The teachers, classes and subjects in it are added for you.
+        </div>
       ) : (
         <div className="card">
           <h2>Add lessons</h2>

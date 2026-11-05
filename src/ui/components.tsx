@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { pastedRows } from '../import';
 import { Chevron } from './icons';
 
 export function PageHead({ title, desc, children, className = '' }: { title: string; desc?: ReactNode; children?: ReactNode; className?: string }) {
@@ -66,16 +67,28 @@ export function MultiSelect({
 }
 
 /** Paste-one-per-line bulk entry. */
-export function BulkAdd({ hint, onAdd }: { hint: string; onAdd: (lines: string[][]) => void }) {
+export function BulkAdd({ hint, existing, onAdd, children }: {
+  hint: string;
+  /** Names already in the list, so pasting the same list twice doesn't add them again. */
+  existing: string[];
+  onAdd: (lines: string[][]) => void;
+  children?: ReactNode;
+}) {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
-  if (!open) return <button className="btn" onClick={() => setOpen(true)}>Paste a list</button>;
+  const [status, setStatus] = useState('');
+  if (!open) {
+    return (
+      <>
+        <button className="btn" onClick={() => { setStatus(''); setOpen(true); }}>Paste a list</button>
+        {status && <span className="muted small" role="status">{status}</span>}
+      </>
+    );
+  }
   const submit = () => {
-    const rows = text
-      .split(/\r?\n/)
-      .map((l) => l.split(/\t|,/).map((x) => x.trim()))
-      .filter((r) => r[0]);
+    const { rows, skipped } = pastedRows(text, existing);
     if (rows.length) onAdd(rows);
+    setStatus(`Added ${rows.length}.${skipped ? ` Skipped ${skipped} already in the list.` : ''}`);
     setText('');
     setOpen(false);
   };
@@ -83,7 +96,8 @@ export function BulkAdd({ hint, onAdd }: { hint: string; onAdd: (lines: string[]
     <div className="card" style={{ width: '100%' }}>
       <h3>Paste a list</h3>
       <p className="help">{hint} Put one on each line. You can copy a column straight from Excel or Google Sheets and paste it here.</p>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} autoFocus />
+      {children}
+      <textarea value={text} onChange={(e) => setText(e.target.value)} autoFocus aria-label="List to paste" />
       <div className="row" style={{ marginTop: 8 }}>
         <button className="btn primary" onClick={submit}>Add</button>
         <button className="btn ghost" onClick={() => setOpen(false)}>Cancel</button>

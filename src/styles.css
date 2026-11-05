@@ -381,6 +381,25 @@ table.lessons-table td select { width: auto; }
 .ms-pop label { display: flex; gap: 10px; align-items: center; padding: 8px; cursor: pointer; min-height: 40px; border-radius: 8px; }
 .ms-pop label:hover { background: var(--surface-2); }
 
+/* ---------- lessons import ---------- */
+.import-lessons > p { max-width: 70ch; }
+.import-example { border-collapse: collapse; font-size: var(--step-small); margin: 4px 0; }
+.import-example th, .import-example td { border: 1px solid var(--line); padding: 6px 12px; text-align: left; }
+.import-example th { background: var(--surface-2); font-weight: 500; }
+.import-notes { padding-left: 20px; margin: 12px 0 16px; }
+.import-notes li + li, .import-summary li + li { margin-top: 4px; }
+.import-summary { padding-left: 20px; margin: 8px 0 16px; }
+.import-summary b { font-weight: 500; }
+.warn-text b { color: var(--warn); }
+.import-actions { margin-bottom: 16px; }
+.import-paste-title { margin: 24px 0 0; }
+table.import-preview tr.import-problem td { background: var(--warn-field); }
+table.import-preview tr.import-same td { color: var(--muted); }
+@container (max-width: 760px) {
+  table.import-preview tbody tr.import-problem { background: var(--warn-field); }
+  table.import-preview tr.import-problem td { background: none; }
+}
+
 /* ---------- alerts ---------- */
 .alert { padding: 12px 16px; margin-bottom: 10px; color: var(--ink); border-radius: 12px; }
 .alert.error { background: var(--danger-field); }

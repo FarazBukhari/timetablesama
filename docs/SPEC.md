@@ -60,7 +60,14 @@ than any contiguous block, no allowed rooms, and so on) before generating.
 
 The sidebar workflow is: **School → Subjects → Teachers → Classes → Rooms → Lessons →
 Availability → Generate → Timetable → Reports**.
-- Each data page has a table with inline editing, add, delete, and bulk add (paste one per line).
+- Each data page has a table with inline editing, add, delete, and bulk add (paste one per line; a
+  header row and names already in the list are skipped).
+- Lessons can be imported in bulk from `.xlsx`, CSV or pasted cells (`src/import/`). Columns are
+  found by name (Teacher, Class, Subject, Lessons a week, plus optional Arrange as, Most in a day,
+  Rooms). Several names in one cell are joined with `&`, `+` or `,`; several classes on one row make
+  a joint lesson. Missing names are created, a row matching an existing lesson (same classes,
+  subject and teachers) updates it, and rows with problems are skipped with a reason. A preview
+  comes first, and one Undo reverses the import.
 - Availability: pick a teacher, class, subject or room, then click or drag over grid cells to toggle
   unavailable.
 - Generate: feasibility report, settings, a Generate button with progress, and a results summary.
