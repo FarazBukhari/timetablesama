@@ -1,4 +1,4 @@
-import type { Lesson, Period, Project, School, SolverSettings } from './types';
+import type { Lesson, Period, Project, Room, School, SchoolClass, SolverSettings, Subject, Teacher } from './types';
 
 let counter = 0;
 export function uid(prefix = 'id'): string {
@@ -100,6 +100,22 @@ export function newLesson(partial: Partial<Lesson> = {}): Lesson {
   };
 }
 
+export const newSubject = (name: string, code?: string, index = 0): Subject => ({
+  id: uid('s'), name, code: code || initials(name), color: PALETTE[index % PALETTE.length], unavailable: [],
+});
+
+export const newTeacher = (name: string, code?: string, email?: string): Teacher => ({
+  id: uid('t'), name, code: code || initials(name), email: email || undefined, unavailable: [],
+});
+
+export const newClass = (name: string, students?: string): SchoolClass => ({
+  id: uid('c'), name, students: students ? Number(students) || undefined : undefined, unavailable: [],
+});
+
+export const newRoom = (name: string, type?: string, capacity?: string): Room => ({
+  id: uid('r'), name, type: type || 'Classroom', capacity: capacity ? Number(capacity) || undefined : undefined, unavailable: [],
+});
+
 /** Lengths of the placeable units a lesson expands into, e.g. 5 periods as doubles -> [2,2,1]. */
 export function unitLengths(lesson: Pick<Lesson, 'periodsPerWeek' | 'length'>): number[] {
   const len = Math.max(1, Math.floor(lesson.length) || 1);
@@ -121,8 +137,22 @@ export function teachingPeriods(periods: Period[]): { period: Period; breakAfter
   return out;
 }
 
+/** `code`, or `code` plus the first number that makes it unique among `taken` (compared ignoring case). */
+export function uniqueCode(code: string, taken: Iterable<string>): string {
+  const used = new Set([...taken].map((c) => c.toUpperCase()));
+  if (!code || !used.has(code.toUpperCase())) return code;
+  let n = 2;
+  while (used.has(`${code}${n}`.toUpperCase())) n++;
+  return `${code}${n}`;
+}
+
+const HONORIFIC = /^(mr|mrs|ms|miss|mx|dr|sir|madam|prof)\.?$/i;
+
+/** Short code from a name: "Amina Rahman" -> "AR", "Urdu" -> "URD". Titles such as "Ms" or "Sir" are skipped. */
 export function initials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  const named = words.filter((w) => !HONORIFIC.test(w));
+  const parts = named.length ? named : words;
   if (!parts.length) return '';
   if (parts.length === 1) return parts[0].slice(0, 3).toUpperCase();
   return parts.map((p) => p[0]).join('').slice(0, 4).toUpperCase();

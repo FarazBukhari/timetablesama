@@ -15,10 +15,15 @@ to install, and your timetables stay in your browser. New to it? Read the
   periods with times, and breaks. A quick builder makes "7 × 45 min with break and lunch" in one
   click.
 - **Data entry:** subjects (code and colour), teachers, classes (class teacher, home room) and
-  rooms (type, capacity). Each has inline editing and bulk paste from a spreadsheet.
+  rooms (type, capacity). Each has inline editing and bulk paste from a spreadsheet, which skips a
+  header row and names already in the list.
 - **Lessons:** subject × class(es) × teacher(s), periods per week, singles, doubles, triples or
   blocks of 4, allowed rooms, and max per day. One click can create the same lesson for many
-  classes, or a joint lesson taught to several classes together.
+  classes, or a joint lesson taught to several classes together. **Import from Excel** adds all
+  lessons at once from an `.xlsx` or CSV file or pasted cells (columns Teachers, Classes, Subject,
+  Lessons a week; optional Arrange as, Most in a day, Rooms). It adds missing teachers, classes,
+  subjects and rooms, updates lessons that already exist, and shows a preview first. The template
+  download includes the current lessons, so it doubles as a lessons export.
 - **Availability:** click or drag on a grid to block times for teachers, classes, rooms or subjects.
 - **Pre-check:** before generating, it flags overloaded teachers, classes and rooms and lessons
   that can never fit.
@@ -68,6 +73,7 @@ about a second.
 src/model/    types, defaults, sample school
 src/solver/   generator engine (pure TS), feasibility check, clash validator, Web Worker
 src/export/   grid builder, CSV, Excel (SpreadsheetML), JSON import/export
+src/import/   spreadsheet readers (CSV/pasted cells, .xlsx without dependencies) and the lessons import
 src/ui/       React app: store (projects, autosave, undo), persistence, pages, components
 docs/         research notes, spec, decisions, design notes
 src/landing/  welcome page; public/pictures/ openly licensed archival pictures
