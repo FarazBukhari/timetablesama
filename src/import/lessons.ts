@@ -121,14 +121,35 @@ export function planLessonImport(project: Project, sheets: Sheet[]): ImportPlan 
   const { sheet, at, cols } = findHeader(sheets);
   const create: ImportPlan['create'] = { teachers: [], classes: [], subjects: [], rooms: [] };
 
-  const lookup = <T extends { id: Id; name: string; code?: string }>(items: T[]) => {
-    const m = new Map<string, Id>();
-    items.forEach((x) => x.code && !m.has(norm(x.code)) && m.set(norm(x.code), x.id));
-    items.forEach((x) => m.set(norm(x.name), x.id));
-    return m;
+  /**
+   * Name (and short code) -> id. A name or code shared by several existing items goes in `clash` instead,
+   * so a row naming it is skipped rather than quietly given to one of them.
+   */
+  const lookup = <T extends { id: Id; name: string; code?: string }>(items: T[], what: string, hasCodes: boolean) => {
+    const ids = new Map<string, Id>();
+    const clash = new Map<string, string>();
+    const tally = (keys: string[]) => keys.reduce((m, k) => m.set(k, (m.get(k) ?? 0) + 1), new Map<string, number>());
+    const names = tally(items.map((x) => norm(x.name)));
+    const codes = tally(items.filter((x) => x.code).map((x) => norm(x.code!)));
+    const fix = hasCodes ? 'Rename one, or use their short code.' : 'Rename one.';
+    items.forEach((x) => {
+      const k = x.code ? norm(x.code) : '';
+      if (!k || names.has(k)) return;
+      if (codes.get(k)! > 1) clash.set(k, `There are ${codes.get(k)} ${what} with the short code "${x.code}". Give each its own code.`);
+      else ids.set(k, x.id);
+    });
+    items.forEach((x) => {
+      const k = norm(x.name);
+      if (names.get(k)! > 1) {
+        ids.delete(k);
+        clash.set(k, `There are ${names.get(k)} ${what} called "${x.name}". ${fix}`);
+      } else ids.set(k, x.id);
+    });
+    return { ids, clash };
   };
-  const teacherIds = lookup(project.teachers), classIds = lookup(project.classes.map(({ id, name }) => ({ id, name })));
-  const subjectIds = lookup(project.subjects), roomIds = lookup(project.rooms.map(({ id, name }) => ({ id, name })));
+  const teachers = lookup(project.teachers, 'teachers', true), classes = lookup(project.classes, 'classes', false);
+  const subjects = lookup(project.subjects, 'subjects', true), rooms = lookup(project.rooms, 'rooms', false);
+  const teacherIds = teachers.ids, classIds = classes.ids, subjectIds = subjects.ids, roomIds = rooms.ids;
   const teacherCodes = project.teachers.map((t) => t.code), subjectCodes = project.subjects.map((s) => s.code);
 
   const resolve = (map: Map<string, Id>, name: string, make: () => { id: Id }) => {
@@ -189,12 +210,16 @@ export function planLessonImport(project: Project, sheets: Sheet[]): ImportPlan 
     else if (count === undefined) row.note = `Lessons a week must be a whole number from 1 to ${MAX_LESSONS_A_WEEK}.`;
     else if (lengthCell && length === undefined) row.note = 'Arrange as must be Singles, Doubles, Triples or Blocks of 4.';
     else if (maxCell && maxPerDay === undefined) row.note = 'Most in a day must be a whole number from 1 to 10.';
+    const roomNames = splitNames(cell('rooms'));
+    // Checked before any name is resolved, so a skipped row adds nothing.
+    row.note ??= ([[row.teachers, teachers], [row.classes, classes], [[row.subject], subjects], [roomNames, rooms]] as const)
+      .flatMap(([names, found]) => names.map((n) => found.clash.get(norm(n))))
+      .find(Boolean);
     if (row.note || count === undefined) return;
 
     const lessonClassIds = row.classes.map(schoolClass);
     const subjectId = subject(row.subject);
     const lessonTeacherIds = row.teachers.map(teacher);
-    const roomNames = splitNames(cell('rooms'));
     const lessonRoomIds = roomNames.map(room);
 
     const key = lessonKey(lessonClassIds, subjectId, lessonTeacherIds);

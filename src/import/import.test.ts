@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { emptyProject, initials, newClass, newLesson, newSubject, newTeacher, uniqueCode } from '../model/defaults';
 import { sampleProject } from '../model/sample';
 import type { Project } from '../model/types';
@@ -23,15 +23,15 @@ async function deflateRaw(b: Uint8Array): Promise<Uint8Array> {
   return new Uint8Array(await new Response(s).arrayBuffer());
 }
 
-/** A minimal ZIP writer: the even entries are stored, the odd ones deflated, so both read paths run. */
-async function zip(files: Record<string, string>): Promise<Uint8Array> {
+/** A minimal ZIP writer: the even entries are stored, the odd ones deflated (unless `deflate` is off), so both read paths run. */
+async function zip(files: Record<string, string>, deflate = true): Promise<Uint8Array> {
   const parts: Uint8Array[] = [], central: Uint8Array[] = [];
   let offset = 0;
   const entries = Object.entries(files);
   for (let i = 0; i < entries.length; i++) {
     const [name, text] = entries[i];
     const raw = enc.encode(text), nameBytes = enc.encode(name);
-    const method = i % 2 ? 8 : 0;
+    const method = deflate && i % 2 ? 8 : 0;
     const data = method ? await deflateRaw(raw) : raw;
     const local = new DataView(new ArrayBuffer(30));
     local.setUint32(0, 0x04034b50, true);
@@ -82,7 +82,7 @@ const SCREENSHOT_ROWS = [
   ['Ms Abeer', '6', 'SST', '2'],
 ];
 
-async function screenshotWorkbook(): Promise<Uint8Array> {
+async function screenshotWorkbook(deflate = true): Promise<Uint8Array> {
   const strings: string[] = [];
   const si = (s: string) => (strings.includes(s) ? strings.indexOf(s) : strings.push(s) - 1);
   const rowXml = SCREENSHOT_ROWS.map((cells, r) => `<row r="${r + 1}">${cells.map((v, c) => {
@@ -97,7 +97,7 @@ async function screenshotWorkbook(): Promise<Uint8Array> {
     'xl/sharedStrings.xml': `<sst>${strings.map((s) => `<si><t>${s.replace(/&/g, '&amp;')}</t></si>`).join('')}</sst>`,
     'xl/worksheets/sheet1.xml': `<worksheet><sheetData>${rowXml}</sheetData></worksheet>`,
     'xl/worksheets/sheet2.xml': '<worksheet><sheetData/></worksheet>',
-  });
+  }, deflate);
 }
 
 /** A school with no subjects, teachers or classes yet. */
@@ -142,6 +142,15 @@ describe('readXlsx', () => {
     const [s] = await readXlsx(book);
     expect(s.name).toBe('A & B');
     expect(s.rows).toEqual([[], ['Ms <Hina>', '', 'TRUE', '5']]);
+  });
+
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('says when the browser is too old to unpack Excel files, but still opens unpacked ones', async () => {
+    const packed = await screenshotWorkbook(), plain = await screenshotWorkbook(false);
+    vi.stubGlobal('DecompressionStream', class { constructor() { throw new TypeError('Unsupported compression format'); } });
+    await expect(readXlsx(packed)).rejects.toThrow(/browser is too old to open Excel files/);
+    expect((await readXlsx(plain))[0].rows).toEqual(SCREENSHOT_ROWS);
   });
 
   it('explains files it cannot read in plain words', async () => {
@@ -262,6 +271,32 @@ describe('lesson import', () => {
   it('lists new classes in order, not in the order the sheet first mentions them', () => {
     const plan = planLessonImport(blank(), sheet([['Teacher', 'Class', 'Subject', 'Lessons'], ['A', '10', 'Urdu', '5'], ['A', '6', 'Urdu', '5'], ['A', '8B', 'Urdu', '5'], ['A', '8A', 'Urdu', '5']]));
     expect(plan.create.classes.map((c) => c.name)).toEqual(['6', '8A', '8B', '10']);
+  });
+
+  it('skips a row naming someone who shares a name or code with another, instead of guessing', () => {
+    const p = blank();
+    const fatimaA = newTeacher('Ms Fatima', 'FA'), fatimaB = newTeacher('Ms Fatima', 'FB');
+    const sana = newTeacher('Ms Sana', 'S'), sara = newTeacher('Ms Sara', 'S');
+    p.teachers.push(fatimaA, fatimaB, sana, sara);
+    p.classes.push(newClass('7A'), newClass('7A'));
+    const plan = planLessonImport(p, sheet([
+      ['Teacher', 'Class', 'Subject', 'Lessons'],
+      ['ms fatima', '8', 'Art', '2'],
+      ['FB', '8', 'Art', '2'],
+      ['Ms Sana', '7A', 'Art', '2'],
+      ['S', '8', 'Urdu', '2'],
+    ]));
+    expect(plan.rows.map((r) => [r.status, r.note])).toEqual([
+      ['problem', 'There are 2 teachers called "Ms Fatima". Rename one, or use their short code.'],
+      ['new', undefined],
+      ['problem', 'There are 2 classes called "7A". Rename one.'],
+      ['problem', 'There are 2 teachers with the short code "S". Give each its own code.'],
+    ]);
+    expect(plan.rows[1].lesson?.teacherIds).toEqual([fatimaB.id]);
+    // Only the row that was imported adds names; the skipped rows add nothing.
+    expect(plan.create.teachers).toEqual([]);
+    expect(plan.create.classes.map((c) => c.name)).toEqual(['8']);
+    expect(plan.create.subjects.map((s) => s.name)).toEqual(['Art']);
   });
 
   it('gives unique codes to new teachers whose initials clash', () => {

@@ -13,6 +13,16 @@ export interface Sheet {
 const NOT_EXCEL = "This file isn't an Excel workbook or a CSV file. In Excel, choose File, Save As, and pick Excel Workbook (.xlsx) or CSV UTF-8.";
 const OLD_EXCEL = 'This is an older Excel file (.xls). In Excel, choose File, Save As, and pick Excel Workbook (.xlsx), then try again.';
 const DAMAGED = "This Excel file is damaged and can't be read. Open it in Excel, save it again, and try once more.";
+const OLD_BROWSER = 'This browser is too old to open Excel files. Update the browser, or in Excel save the sheet as CSV UTF-8, or copy the cells and paste them below.';
+
+/** Whether this browser can unpack Excel files (Chrome 103+, Safari 16.4+, Firefox 113+). */
+export function canReadXlsx(): boolean {
+  try {
+    return typeof DecompressionStream === 'function' && !!new DecompressionStream('deflate-raw');
+  } catch {
+    return false;
+  }
+}
 
 const startsWith = (b: Uint8Array, sig: number[]) => sig.every((x, i) => b[i] === x);
 export const isZip = (b: Uint8Array): boolean => startsWith(b, [0x50, 0x4b, 0x03, 0x04]);
@@ -52,6 +62,7 @@ function openZip(bytes: Uint8Array): { names: string[]; text: (name: string) => 
       const raw = bytes.subarray(start, start + e.size);
       if (e.method === 0) return utf8.decode(raw);
       if (e.method !== 8) throw new Error(DAMAGED);
+      if (!canReadXlsx()) throw new Error(OLD_BROWSER);
       try {
         return utf8.decode(await inflateRaw(raw));
       } catch {
