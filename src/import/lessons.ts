@@ -40,7 +40,7 @@ export function readHeader(row: string[]): Partial<Record<Column, number>> {
   return cols;
 }
 
-/** Splits "Ms Hina & Sir Rizwan" or "1 + 3" into names, without repeats. */
+/** Splits "Ms Saba & Sir Kamal" or "1 + 3" into names, without repeats. */
 export function splitNames(cell: string | undefined): string[] {
   const seen = new Set<string>();
   return (cell ?? '')

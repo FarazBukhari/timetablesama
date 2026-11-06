@@ -21,7 +21,7 @@ function counts(plan: ImportPlan) {
   return { added: n('new'), updated: n('update'), same: n('same'), skipped: n('problem') };
 }
 
-/** "Also adds 4 teachers (Ms Hina, Sir Rizwan, …), 8 classes (…) and 6 subjects (…)." */
+/** "Also adds 4 teachers (Ms Saba, Sir Kamal, …), 8 classes (…) and 6 subjects (…)." */
 function createdText(plan: ImportPlan, withNames: boolean): string {
   const parts = ([
     ['teacher', plan.create.teachers],
@@ -168,8 +168,8 @@ export function ImportLessons({ onClose, onDone }: { onClose: () => void; onDone
         <table className="import-example">
           <thead><tr><th>Teachers</th><th>Classes</th><th>Subject</th><th>Lessons a week</th></tr></thead>
           <tbody>
-            <tr><td>Ms Hina</td><td>1</td><td>Urdu</td><td>5</td></tr>
-            <tr><td>Ms Hina &amp; Sir Rizwan</td><td>1 &amp; 3</td><td>Quran</td><td>5</td></tr>
+            <tr><td>Ms Saba</td><td>1</td><td>Urdu</td><td>5</td></tr>
+            <tr><td>Ms Saba &amp; Sir Kamal</td><td>1 &amp; 3</td><td>Quran</td><td>5</td></tr>
           </tbody>
         </table>
       </div>
@@ -195,7 +195,7 @@ export function ImportLessons({ onClose, onDone }: { onClose: () => void; onDone
       <textarea
         value={paste}
         aria-label="Pasted cells"
-        placeholder={'Teachers\tClasses\tSubject\tLessons a week\nMs Hina\t1\tUrdu\t5'}
+        placeholder={'Teachers\tClasses\tSubject\tLessons a week\nMs Saba\t1\tUrdu\t5'}
         onChange={(e) => setPaste(e.target.value)}
       />
       <div className="row" style={{ marginTop: 8 }}>
